@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chan.music.mapper.Refresh_tokenDao">
+<mapper namespace="com.chen.music.mapper.RefreshTokenDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.chen.music.pojo.Refresh_token">
+    <resultMap id="BaseResultMap" type="com.chen.music.pojo.RefreshToken">
         <id column="id" property="id" />
         <result column="refresh_token" property="refreshToken" />
         <result column="user_id" property="userId" />

@@ -1,16 +1,18 @@
 package com.chen.music.response;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ResponseResult {
     private boolean success;
     private int code;
     private String message;
-    private Object data;
+    private Map<String,Object> data = new HashMap<>();
 
     public ResponseResult(ResponseState responseState) {
         this.success = responseState.isSuccess();
         this.code = responseState.getCode();
         this.message = responseState.getMessage();
-        this.data = data;
     }
 
     public static ResponseResult GET(ResponseState state){
@@ -98,8 +100,13 @@ public class ResponseResult {
 //        this.data = data;
 //    }
 
-    public ResponseResult setData(Object data) {
-        this.data = data;
+    public ResponseResult setData(String key,Object data){
+        this.data.put(key,data);
+        return this;
+    }
+
+    public ResponseResult setData(Map<String,Object> data) {
+        this.data.putAll(data);
         return this;
     }
 }

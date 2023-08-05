@@ -1,8 +1,12 @@
 package com.chen.music.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -16,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @TableName("tb_refresh_token")
 @ApiModel(value = "Refresh_token对象", description = "")
-public class Refresh_token implements Serializable {
+public class RefreshToken implements Serializable {
 
 
     @ApiModelProperty(value = "ID")
@@ -31,11 +35,13 @@ public class Refresh_token implements Serializable {
     @ApiModelProperty(value = "token的key")
     private String tokenKey;
 
+    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
+    private Date createTime;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
 
     public String getId() {
@@ -70,19 +76,19 @@ public class Refresh_token implements Serializable {
         this.tokenKey = tokenKey;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 

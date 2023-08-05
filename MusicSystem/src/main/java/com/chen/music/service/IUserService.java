@@ -21,5 +21,33 @@ public interface IUserService extends IService<User> {
 
     void createCaptcha(HttpServletResponse response, String captchaKey) throws Exception;
 
+    ResponseResult sendEmail(String type, HttpServletRequest request, String emailAddress);
 
+    ResponseResult register(User user, String emailCode, String captchaCode, String captchaKey, HttpServletRequest request);
+
+    ResponseResult doLogin(String captcha_key, String captcha, User user, HttpServletRequest request, HttpServletResponse response);
+
+    User checkUser();
+
+    ResponseResult updateUserPassword(String verifyCode, User user);
+
+    ResponseResult getUserInfo(String userId);
+
+    ResponseResult updateUserInfo(String userId, User user);
+
+    ResponseResult listUser(int page, int size);
+
+    ResponseResult deleteUserById(String userId);
+
+    ResponseResult checkEmail(String email);
+
+    ResponseResult checkUserName(String userName);
+
+    ResponseResult updateEmail(String email, String verifyCode);
+
+    ResponseResult doLogout();
+
+    ResponseResult registerAdmin(User user, String roleId, String captchaCode, String captchaKey, HttpServletRequest request);
+
+    ResponseResult deleteAdminById(String userId);
 }

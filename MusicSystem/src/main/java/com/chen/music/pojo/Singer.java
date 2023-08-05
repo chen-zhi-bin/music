@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 
 /**
@@ -28,7 +30,7 @@ public class Singer implements Serializable {
 
     private String picId;
 
-    private LocalDateTime birth;
+    private Date birth;
 
     private String location;
 
@@ -69,11 +71,11 @@ public class Singer implements Serializable {
         this.picId = picId;
     }
 
-    public LocalDateTime getBirth() {
+    public Date getBirth() {
         return birth;
     }
 
-    public void setBirth(LocalDateTime birth) {
+    public void setBirth(Date birth) {
         this.birth = birth;
     }
 

@@ -17,6 +17,14 @@ spring:
     port: 6379
     host: ${redis.host}
     password: ${password}
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: ${email.number}
+    password: ${email.password}
+    default-encoding: UTF-8
+    protocol: smtps
+    nickname: 音乐系统
 
 mybatis-plus:
   configuration:
@@ -29,3 +37,6 @@ mybatis-plus:
 
 music.system.image.save-path-img: ${save-path-img}
 music.system.image.default-avatar: default_avatar.png
+
+#email.number: ${email.number}
+#email.password: ${email.password}

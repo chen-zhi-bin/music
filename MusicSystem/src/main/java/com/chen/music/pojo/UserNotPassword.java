@@ -2,13 +2,12 @@ package com.chen.music.pojo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.util.Date;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -20,7 +19,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @TableName("tb_user")
 @ApiModel(value = "User对象", description = "")
-public class User implements Serializable {
+public class UserNotPassword implements Serializable {
 
 
     @ApiModelProperty(value = "ID")
@@ -28,10 +27,6 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "用户名")
     private String userName;
-
-    @ApiModelProperty(value = "密码")
-    @TableField("`password`")
-    private String password;
 
     @ApiModelProperty(value = "用户ID")
     private String roleId;
@@ -50,8 +45,6 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "注册ip")
     private String regIp;
-
-    @TableLogic
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "注册ip")
     private String deleted = "0";
@@ -99,13 +92,6 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getAvatar() {
         return avatar;
@@ -176,7 +162,6 @@ public class User implements Serializable {
         return "User{" +
                 "id='" + id + '\'' +
                 ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
                 ", roleId='" + roleId + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", email='" + email + '\'' +

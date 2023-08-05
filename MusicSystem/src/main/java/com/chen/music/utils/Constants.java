@@ -7,15 +7,18 @@ public interface Constants {
     }
 
     interface User {
-        String DEFAULT_AVATAR = "D:\\resources\\img\\default_avatar.png";
+        String DEFAULT_AVATAR = "default_avatar.png";
         String DEFAULT_STATE = "1";
         String COOKIE_TOKEN_KEY = "cookie_token";
+        String ROLE_NORMAL = "10";
         //redis的key
         String KEY_CAPTCHA_CONTENT = "key_captcha_content_";
         String KEY_EMAIL_CODE_CONTENT = "key_email_code_content_";
         String KEY_EMAIL_SEND_IP = "key_email_send_ip_";
         String KEY_EMAIL_SEND_ADDRESS = "key_email_send_address_";
         String KEY_TOKEN = "key_token_";
+        String ROLE_ADMIN_ID = "2";
+        String ROLE_ADMIN_SUPER_ID = "1";
     }
 
     interface Settings {
@@ -39,8 +42,18 @@ public interface Constants {
         long WEEK = 7 * DAY;
         long MONTH = 30 * DAY;
     }
-//         <Context docBase ="/root/docker/music_mysql/img" path ="/img" debug ="0" reloadable ="true"/>
-//        <Context docBase ="/root/docker/music_mysql/music" path ="/music" debug ="0" reloadable ="true"/>
+
+    /**
+     * 单位是秒
+     */
+    interface TimeValueInSecond {
+        int MIN = 60;
+        int HOUR = 60 * MIN;
+        int HOUR_2 = 2 * 60 * MIN;
+        int DAY = 24 * HOUR;
+        int WEEK = 7 * DAY;
+        int MONTH = 30 * DAY;
+    }
 
 
 }
