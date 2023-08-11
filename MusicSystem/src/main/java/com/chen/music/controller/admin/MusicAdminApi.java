@@ -38,7 +38,7 @@ public class MusicAdminApi {
     @PreAuthorize("@permission.superAdmin()||@permission.musicAdmin()")
     @PostMapping("/list/{state}/{page}/{size}")
     public ResponseResult listMusics(@PathVariable("page") int page, @PathVariable("size") int size,@PathVariable("state")String state) {
-        return iMusicService.listmusics(page,size,state);
+        return iMusicService.adminListMusics(page,size,state);
     }
 
     @GetMapping("/{musicId}")
@@ -92,5 +92,14 @@ public class MusicAdminApi {
     public ResponseResult getDeletedList(@PathVariable("page") int page,
                                          @PathVariable("size") int size){
         return iMusicService.getDeleteList(page,size);
+    }
+
+    @PreAuthorize("@permission.superAdmin()||@permission.musicAdmin()")
+    @GetMapping("/musician/list/{musician_Id}/{page}/{size}")
+    public ResponseResult getListBySingId(
+                                            @PathVariable("musician_Id") String musicianId,
+                                            @PathVariable("page") int page,
+                                          @PathVariable("size") int size){
+        return iMusicService.getListBySingId(musicianId,page,size);
     }
 }

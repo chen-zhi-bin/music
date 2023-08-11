@@ -1,11 +1,8 @@
 package com.chen.music.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.chen.music.mapper.MusicDao;
-import com.chen.music.mapper.SettingsNoDateDao;
-import com.chen.music.mapper.SingerDao;
+import com.chen.music.mapper.*;
 import com.chen.music.pojo.Settings;
-import com.chen.music.mapper.SettingsDao;
 import com.chen.music.pojo.solrInfo.SettingsNoDate;
 import com.chen.music.response.ResponseResult;
 import com.chen.music.service.ISettingsService;
@@ -39,6 +36,9 @@ public class SettingsServiceImpl extends ServiceImpl<SettingsDao, Settings> impl
 
     @Autowired
     private MusicDao musicDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private SingerDao singerDao;
@@ -426,6 +426,14 @@ public class SettingsServiceImpl extends ServiceImpl<SettingsDao, Settings> impl
         HashMap<String, Object> res = new HashMap<>();
         res.put("count",count);
         return ResponseResult.SUCCESS("获取歌手数量成功").setData(res);
+    }
+
+    @Override
+    public ResponseResult getUserCount() {
+        Long count = userDao.selectCount(null);
+        HashMap<String, Object> res = new HashMap<>();
+        res.put("count",count);
+        return ResponseResult.SUCCESS("获取用户数量成功").setData(res);
     }
 
 

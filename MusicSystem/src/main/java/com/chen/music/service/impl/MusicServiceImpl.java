@@ -11,6 +11,7 @@ import com.chen.music.pojo.Singer;
 import com.chen.music.pojo.User;
 import com.chen.music.pojo.solrInfo.MusicInfo;
 import com.chen.music.pojo.vo.MusicAndSingerVo;
+import com.chen.music.pojo.vo.MusicUpdateInfoToUserVo;
 import com.chen.music.response.ResponseResult;
 import com.chen.music.service.IMusicService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -31,10 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -226,25 +224,40 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
 
     @Override
     public ResponseResult deleteMusic(String id) {
-        int result = musicDao.deleteByMusicId(id);
-        if (result>0){
-            return ResponseResult.SUCCESS("删除成功");
+        User user = userService.checkUser();
+        if (user == null) {
+            return ResponseResult.ACCOUNT_NOT_LOGIN();
         }
-        return ResponseResult.FAILED("删除失败，音乐不存在");
-    }
-
-    @Override
-    public ResponseResult recoverMusic(String id) {
         Music music = musicDao.selectById(id);
         if (music == null) {
             return ResponseResult.FAILED("音乐不存在");
         }
-        music.setState("1");
-        int res = musicDao.updateById(music);
-        if (res>0) {
-            return ResponseResult.SUCCESS("恢复成功");
+        music.setUpdateTime(new Date());
+        music.setUserId(user.getId());
+        music.setState(Constants.Music.STATE_DELETE);
+        QueryWrapper<Music> updateWrapper = new QueryWrapper<>();
+        updateWrapper.eq("id",id);
+        int res = musicDao.update(music, updateWrapper);
+        return res>0?ResponseResult.SUCCESS("删除成功"):ResponseResult.FAILED("删除失败，音乐不存在");
+    }
+
+    @Override
+    public ResponseResult recoverMusic(String id) {
+        User user = userService.checkUser();
+        if (user == null) {
+            return ResponseResult.ACCOUNT_NOT_LOGIN();
         }
-        return ResponseResult.FAILED("恢复失败");
+        Music music = musicDao.selectById(id);
+        if (music == null) {
+            return ResponseResult.FAILED("音乐不存在");
+        }
+        music.setUpdateTime(new Date());
+        music.setUserId(user.getId());
+        music.setState(Constants.Music.STATE_PUBLISH);
+        QueryWrapper<Music> updateWrapper = new QueryWrapper<>();
+        updateWrapper.eq("id",id);
+        int res = musicDao.update(music, updateWrapper);
+        return res>0?ResponseResult.SUCCESS("恢复成功"):ResponseResult.FAILED("恢复失败");
     }
 
     @Override
@@ -485,15 +498,15 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
      * @return
      */
     @Override
-    public ResponseResult listmusics(int page, int size,String state) {
+    public ResponseResult adminListMusics(int page, int size,String state) {
         page=CheckUtils.checkPage(page);
         size=CheckUtils.checkSize(size);
 
-        Page<MusicAndSingerVo> musicAndSingerVoPage = new Page<>(page-1, size);
+        Page<MusicUpdateInfoToUserVo> musicAndSingerVoPage = new Page<>(page-1, size);
         musicAndSingerVoPage.addOrder(OrderItem.desc("create_time"));
-        QueryWrapper<MusicAndSingerVo> musicAndSingerVoQueryWrapper = new QueryWrapper<>();
-        musicAndSingerVoQueryWrapper.ne("state","0");
-        IPage<MusicAndSingerVo> musicList = musicDao.getMusicListByPage(musicAndSingerVoPage, musicAndSingerVoQueryWrapper);
+        QueryWrapper<MusicUpdateInfoToUserVo> musicAndSingerVoQueryWrapper = new QueryWrapper<>();
+        musicAndSingerVoQueryWrapper.ne("tb_music.`state`","0");
+        IPage<MusicUpdateInfoToUserVo> musicList = musicDao.getMusicListByPage(musicAndSingerVoPage, musicAndSingerVoQueryWrapper);
         log.info(musicList.toString());
 //        log.info(offset+"");
 //        log.info(size+"");
@@ -634,11 +647,42 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         page=CheckUtils.checkPage(page);
         size=CheckUtils.checkSize(size);
 
-        Page<MusicAndSingerVo> musicAndSingerVoPage = new Page<>(page-1, size);
+        Page<MusicUpdateInfoToUserVo> musicAndSingerVoPage = new Page<>(page-1, size);
         musicAndSingerVoPage.addOrder(OrderItem.desc("create_time"));
-        QueryWrapper<MusicAndSingerVo> musicAndSingerVoQueryWrapper = new QueryWrapper<>();
-        musicAndSingerVoQueryWrapper.eq("state",Constants.Music.STATE_DELETE);
-        IPage<MusicAndSingerVo> musicList = musicDao.getMusicListByPage(musicAndSingerVoPage, musicAndSingerVoQueryWrapper);
+        QueryWrapper<MusicUpdateInfoToUserVo> musicAndSingerVoQueryWrapper = new QueryWrapper<>();
+        musicAndSingerVoQueryWrapper.eq("tb_music.`state`",Constants.Music.STATE_DELETE);
+        IPage<MusicUpdateInfoToUserVo> musicList = musicDao.getMusicListByPage(musicAndSingerVoPage, musicAndSingerVoQueryWrapper);
+        log.info(musicList.toString());
+//        log.info(offset+"");
+//        log.info(size+"");
+        HashMap<String, Object> res = new HashMap<>();
+        res.put("list",musicList.getRecords());
+        res.put("maxPage",musicList.getPages());
+        res.put("currentPage",page);
+        return ResponseResult.SUCCESS("获取成功").setData(res);
+    }
+
+    @Override
+    public ResponseResult getListBySingId(String musicianId, int page, int size) {
+        page=CheckUtils.checkPage(page);
+        size=CheckUtils.checkSize(size);
+        User user = userService.checkUser();
+        if (user == null) {
+            return ResponseResult.ACCOUNT_NOT_LOGIN();
+        }
+        Page<MusicUpdateInfoToUserVo> musicAndSingerVoPage = new Page<>(page-1, size);
+        QueryWrapper<MusicUpdateInfoToUserVo> musicUpdateInfoToUserVoQueryWrapper = null;
+        if (!user.getRoleId().equals(Constants.User.ROLE_ADMIN_SUPER_ID)||
+            !user.getRoleId().equals(Constants.User.ROLE_ADMIN_MUSIC_ID)){
+            musicUpdateInfoToUserVoQueryWrapper =new QueryWrapper<>();
+            musicUpdateInfoToUserVoQueryWrapper.eq("tb_music.`state`",Constants.Music.STATE_PUBLISH)
+                    .or()
+                    .eq("tb_music.`state`",Constants.Music.STATE_TOP);
+        }
+        musicAndSingerVoPage.addOrder(OrderItem.desc("tb_music.create_time"));
+        QueryWrapper<MusicUpdateInfoToUserVo> musicAndSingerVoQueryWrapper = new QueryWrapper<>();
+        musicAndSingerVoQueryWrapper.eq("tb_music.`singer_id`",musicianId);
+        IPage<MusicUpdateInfoToUserVo> musicList = musicDao.getMusicListByPage(musicAndSingerVoPage, musicAndSingerVoQueryWrapper);
         log.info(musicList.toString());
 //        log.info(offset+"");
 //        log.info(size+"");

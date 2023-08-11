@@ -37,6 +37,12 @@ public class WebSizeInfoAdminApi {
     }
 
     @PreAuthorize("@permission.superAdmin()||@permission.imageAdmin()||@permission.userAdmin()||@permission.musicAdmin()")
+    @GetMapping("/user_count")
+    public ResponseResult getUserCount(){
+        return webSizeInfoService.getUserCount();
+    }
+
+    @PreAuthorize("@permission.superAdmin()||@permission.imageAdmin()||@permission.userAdmin()||@permission.musicAdmin()")
     @GetMapping("/view_count")
     public ResponseResult getWebSizeViewCount(){
         return webSizeInfoService.getSizeViewCount();

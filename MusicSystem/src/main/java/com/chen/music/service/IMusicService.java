@@ -32,7 +32,7 @@ public interface IMusicService extends IService<Music> {
 
     ResponseResult getMusicInfo(String musicId);
 
-    ResponseResult listmusics(int page, int size,String state);
+    ResponseResult adminListMusics(int page, int size,String state);
 
     ResponseResult doSearchMusicByName(int page, int size, String name);
 
@@ -41,4 +41,6 @@ public interface IMusicService extends IService<Music> {
     ResponseResult updateMusicTop(String musicId);
 
     ResponseResult getDeleteList(int page, int size);
+
+    ResponseResult getListBySingId(String musicianId, int page, int size);
 }
