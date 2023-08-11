@@ -2,6 +2,15 @@ package com.chen.music.utils;
 
 public interface Constants {
 
+    interface Music{
+        //1表示正常，0表示删除，3表示置顶
+        String STATE_DELETE="0";
+        String STATE_PUBLISH="1";
+        String STATE_TOP="3";
+        Long PREDICT_SUB_COMMENT_SIZE=3L;
+
+    }
+
     interface AdminPermission{
         String ROLE_SUPER_ADMIN ="1";
     }
@@ -18,7 +27,30 @@ public interface Constants {
         String KEY_EMAIL_SEND_ADDRESS = "key_email_send_address_";
         String KEY_TOKEN = "key_token_";
         String ROLE_ADMIN_ID = "2";
+        String ROLE_ADMIN_IMAGE_ID = "3";
+        String ROLE_ADMIN_MUSIC_ID = "4";
         String ROLE_ADMIN_SUPER_ID = "1";
+    }
+
+    interface ImageType{
+        String PREFIX="image/";
+        String TYPE_JPEG = "jpeg";
+        String TYPE_JPG = "jpg";
+        String TYPE_PNG = "png";
+        String TYPE_GIF = "gif";
+        String TYPE_JPEG_WITH_PREFIX =PREFIX+"jpeg";
+        String TYPE_JPG_WITH_PREFIX =PREFIX+"jpg";
+        String TYPE_PNG_WITH_PREFIX=PREFIX+"png";
+        String TYPE_GIF_WITH_PREFIX=PREFIX+"gif";
+    }
+    interface MusicType {
+        String PREFIX_AUDIO="audio/";
+        String TYPE_MP3="mp3";
+        String TYPE_FLAC="flac";
+        String TYPE_MP3_AND_FLAC=TYPE_MP3+"/"+TYPE_FLAC;
+        String TYPE_MP3_WITH_PREFIX_AUDIO=PREFIX_AUDIO+TYPE_MP3;
+        String TYPE_FLAC_WITH_PREFIX_AUDIO=PREFIX_AUDIO+TYPE_FLAC;
+
     }
 
     interface Settings {
@@ -27,6 +59,14 @@ public interface Constants {
         String WEB_SIZE_DESCRIPTION="web_size_description";
         String WEB_SIZE_KEYWORDS="web_size_keywords";
         String WEB_SIZE_VIEW_COUNT="web_size_view_count";
+        String WEB_SIZE_TODAY_VIEW_COUNT="web_size_today_view_count";
+        String WEB_SIZE_ONE_DAY_BEFORE_VIEW_COUNT="web_size_one_day_before_view_count";
+        String WEB_SIZE_TWO_DAY_BEFORE_VIEW_COUNT="web_size_two_day_before_view_count";
+        String WEB_SIZE_THREE_DAY_BEFORE_VIEW_COUNT="web_size_three_day_before_view_count";
+        String WEB_SIZE_FOUR_DAY_BEFORE_VIEW_COUNT="web_size_four_day_before_view_count";
+        String WEB_SIZE_FIVE_DAY_BEFORE_VIEW_COUNT="web_size_five_day_before_view_count";
+        String WEB_SIZE_SIX_DAY_BEFORE_VIEW_COUNT="web_size_six_day_before_view_count";
+        String WEB_SIZE_SEVEN_DAY_BEFORE_VIEW_COUNT="web_size_seven_day_before_view_count";
     }
 
     interface Page{

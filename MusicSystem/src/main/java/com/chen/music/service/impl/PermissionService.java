@@ -70,4 +70,47 @@ public class PermissionService {
         return false;
     }
 
+    public boolean imageAdmin() {
+        //拿到request和response
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = requestAttributes.getRequest();
+        HttpServletResponse response = requestAttributes.getResponse();
+        String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
+        //没有令牌的key，肯定没有登录，不用往下执行了
+        if (TextUtils.isEmpty(tokenKey)) {
+            return false;
+        }
+        User user = userService.checkUser();
+        if (user == null) {
+            return false;
+        }
+        System.out.println(user.toString());
+        if (Constants.User.ROLE_ADMIN_IMAGE_ID.equals(user.getRoleId())) {
+            //管理员
+            return true;
+        }
+        return false;
+    }
+
+    public boolean musicAdmin() {
+        //拿到request和response
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = requestAttributes.getRequest();
+        HttpServletResponse response = requestAttributes.getResponse();
+        String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
+        //没有令牌的key，肯定没有登录，不用往下执行了
+        if (TextUtils.isEmpty(tokenKey)) {
+            return false;
+        }
+        User user = userService.checkUser();
+        if (user == null) {
+            return false;
+        }
+        System.out.println(user.toString());
+        if (Constants.User.ROLE_ADMIN_MUSIC_ID.equals(user.getRoleId())) {
+            //管理员
+            return true;
+        }
+        return false;
+    }
 }

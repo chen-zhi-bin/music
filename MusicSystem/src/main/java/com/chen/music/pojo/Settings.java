@@ -1,5 +1,6 @@
 package com.chen.music.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
@@ -32,6 +33,7 @@ public class Settings implements Serializable {
     @TableField("`value`")
     private String value;
 
+    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
@@ -51,6 +53,7 @@ public class Settings implements Serializable {
         this.updateTime = updateTime;
     }
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
 

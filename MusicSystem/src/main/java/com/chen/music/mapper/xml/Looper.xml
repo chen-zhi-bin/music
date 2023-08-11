@@ -12,11 +12,12 @@
         <result column="image_url" property="imageUrl" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
+        <result column="user_id" property="userId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, `order`, state, target_url, image_url, create_time, update_time
+        id, title, `order`, state, target_url, image_url, create_time, update_time,user_id
     </sql>
 
 </mapper>

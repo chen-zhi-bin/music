@@ -15,11 +15,21 @@
         <result column="url" property="url" />
         <result column="state" property="state" />
         <result column="md5" property="md5" />
+        <result column="content_type" property="contentType" />
+        <result column="path" property="path" />
+        <result column="file_high_path" property="fileHighPath" />
+        <result column="file_high_url" property="fileHighUrl" />
+        <result column="file_high_md5" property="fileHighMd5" />
+        <result column="count" property="count" />
+        <result column="duration" property="duration" />
+        <result column="singer_name" property="singerName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, singer_id, `name`, introduction, create_time, update_time, pic_id, lyric, url, state, md5
+        id, singer_id, `name`, introduction, create_time, update_time, pic_id, lyric, url, `state`, md5,content_type,`path`,
+file_high_path,file_high_md5,`count`,file_high_url,duration,singer_name
     </sql>
+
 
 </mapper>

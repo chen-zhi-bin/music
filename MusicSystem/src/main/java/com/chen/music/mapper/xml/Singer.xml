@@ -8,15 +8,17 @@
         <result column="name" property="name" />
         <result column="sex" property="sex" />
         <result column="pic_id" property="picId" />
-        <result column="birth" property="birth" />
         <result column="location" property="location" />
         <result column="introduction" property="introduction" />
         <result column="music_count" property="musicCount" />
+        <result column="user_id" property="userId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, `name`, sex, pic_id, birth, location, introduction, music_count
+        id, `name`, sex, pic_id, birth, location, introduction, music_count,`user_id`,create_time,update_time
     </sql>
 
 </mapper>

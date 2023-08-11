@@ -2,6 +2,7 @@ package com.chen.music.service;
 
 import com.chen.music.pojo.Friends;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chen.music.response.ResponseResult;
 
 /**
  * <p>
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IFriendsService extends IService<Friends> {
 
+    ResponseResult addFriendLink(Friends friendLink);
+
+    ResponseResult deleteFriendLink(String friendId);
+
+    ResponseResult updateFriendLink(String friendLinkId, Friends friendLink);
+
+    ResponseResult getList();
 }

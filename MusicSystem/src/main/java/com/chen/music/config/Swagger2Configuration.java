@@ -25,7 +25,7 @@ public class Swagger2Configuration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(portalApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.chen.music..controller.portal"))
+                .apis(RequestHandlerSelectors.basePackage("com.chen.music.controller.portal"))
                 //会扫描sob.blog.system.controller.portal下的所有方法
                 .paths(PathSelectors.any()) // 可以根据url路径设置哪些请求加入文档，忽略哪些请求
                 .build()

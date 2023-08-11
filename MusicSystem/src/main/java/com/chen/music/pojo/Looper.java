@@ -1,9 +1,12 @@
 package com.chen.music.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -39,12 +42,39 @@ public class Looper implements Serializable {
     @ApiModelProperty(value = "图片地址")
     private String imageUrl;
 
+    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
+    private Date createTime;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
+    private String userId;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getId() {
         return id;
@@ -94,33 +124,19 @@ public class Looper implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
 
     @Override
     public String toString() {
         return "Looper{" +
-        "id=" + id +
-        ", title=" + title +
-        ", order=" + order +
-        ", state=" + state +
-        ", target_url=" + targetUrl +
-        ", image_url=" + imageUrl +
-        ", create_time=" + createTime +
-        ", update_time=" + updateTime +
-        "}";
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", order=" + order +
+                ", state='" + state + '\'' +
+                ", targetUrl='" + targetUrl + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 }

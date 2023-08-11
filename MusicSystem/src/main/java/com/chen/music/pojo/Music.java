@@ -1,11 +1,14 @@
 package com.chen.music.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.solr.core.mapping.SolrDocument;
 
 /**
  * <p>
@@ -15,6 +18,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author chen
  * @since 2023-07-31
  */
+
 @TableName("tb_music")
 @ApiModel(value = "Music对象", description = "")
 public class Music implements Serializable {
@@ -29,10 +33,12 @@ public class Music implements Serializable {
 
     private String introduction;
 
+    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "发行时间")
-    private LocalDateTime createTime;
+    private Date createTime;
 
-    private LocalDateTime updateTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date updateTime;
 
     @ApiModelProperty(value = "图片id")
     private String picId;
@@ -47,6 +53,80 @@ public class Music implements Serializable {
 
     private String md5;
 
+    private String contentType;
+
+    private String path;
+
+    private String userId;
+
+    private String fileHighUrl;
+
+    private String singerName;
+
+    public String getSingerName() {
+        return singerName;
+    }
+
+    public void setSingerName(String singerName) {
+        this.singerName = singerName;
+    }
+
+    public String getFileHighPath() {
+        return fileHighPath;
+    }
+
+    public void setFileHighPath(String fileHighPath) {
+        this.fileHighPath = fileHighPath;
+    }
+
+    private String fileHighPath;
+
+    private String fileHighMd5;
+
+    private String count;
+
+    private String duration;
+
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getFileHighUrl() {
+        return fileHighUrl;
+    }
+
+    public void setFileHighUrl(String fileHighUrl) {
+        this.fileHighUrl = fileHighUrl;
+    }
+
+    public String getFileHighMd5() {
+        return fileHighMd5;
+    }
+
+    public void setFileHighMd5(String fileHighMd5) {
+        this.fileHighMd5 = fileHighMd5;
+    }
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getId() {
         return id;
@@ -80,19 +160,19 @@ public class Music implements Serializable {
         this.introduction = introduction;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -136,20 +216,45 @@ public class Music implements Serializable {
         this.md5 = md5;
     }
 
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     @Override
     public String toString() {
         return "Music{" +
-        "id=" + id +
-        ", singer_id=" + singerId +
-        ", name=" + name +
-        ", introduction=" + introduction +
-        ", create_time=" + createTime +
-        ", update_time=" + updateTime +
-        ", pic_id=" + picId +
-        ", lyric=" + lyric +
-        ", url=" + url +
-        ", state=" + state +
-        ", md5=" + md5 +
-        "}";
+                "id='" + id + '\'' +
+                ", singerId='" + singerId + '\'' +
+                ", name='" + name + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", picId='" + picId + '\'' +
+                ", lyric='" + lyric + '\'' +
+                ", url='" + url + '\'' +
+                ", state='" + state + '\'' +
+                ", md5='" + md5 + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", path='" + path + '\'' +
+                ", userId='" + userId + '\'' +
+                ", fileHighUrl='" + fileHighUrl + '\'' +
+                ", singerName='" + singerName + '\'' +
+                ", fileHighPath='" + fileHighPath + '\'' +
+                ", fileHighMd5='" + fileHighMd5 + '\'' +
+                ", count='" + count + '\'' +
+                ", duration='" + duration + '\'' +
+                '}';
     }
 }

@@ -1,9 +1,12 @@
 package com.chen.music.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -39,12 +42,14 @@ public class Friends implements Serializable {
 
     @ApiModelProperty(value = "友情链接状态:0表示不可用，1表示正常")
     private String state;
-
+    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
-
+    private Date createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
+    private Date updateTime;
+
+    private String userId;
 
 
     @Override
@@ -58,6 +63,7 @@ public class Friends implements Serializable {
                 ", state='" + state + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 
@@ -109,19 +115,28 @@ public class Friends implements Serializable {
         this.state = state;
     }
 
-    public LocalDateTime getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public LocalDateTime getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(LocalDateTime updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
 }

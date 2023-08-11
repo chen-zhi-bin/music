@@ -1,7 +1,7 @@
 package com.chen.music.mapper;
 
-import com.chen.music.pojo.Images;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.chen.music.pojo.SubCommentBean;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author chen
  * @since 2023-07-31
  */
-public interface ImagesDao extends BaseMapper<Images> {
+public interface SubCommentBeanDao extends BaseMapper<SubCommentBean> {
 
 }

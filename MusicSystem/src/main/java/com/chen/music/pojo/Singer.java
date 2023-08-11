@@ -1,5 +1,6 @@
 package com.chen.music.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
@@ -30,13 +31,20 @@ public class Singer implements Serializable {
 
     private String picId;
 
-    private Date birth;
 
     private String location;
 
     private String introduction;
 
     private String musicCount;
+
+    private String userId;
+
+    @TableField(fill = FieldFill.INSERT)
+    private Date createTime;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date updateTime;
 
 
     public String getId() {
@@ -71,12 +79,28 @@ public class Singer implements Serializable {
         this.picId = picId;
     }
 
-    public Date getBirth() {
-        return birth;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setBirth(Date birth) {
-        this.birth = birth;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String getLocation() {
@@ -106,14 +130,16 @@ public class Singer implements Serializable {
     @Override
     public String toString() {
         return "Singer{" +
-        "id=" + id +
-        ", name=" + name +
-        ", sex=" + sex +
-        ", pic_id=" + picId +
-        ", birth=" + birth +
-        ", location=" + location +
-        ", introduction=" + introduction +
-        ", music_count=" + musicCount +
-        "}";
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", sex=" + sex +
+                ", picId='" + picId + '\'' +
+                ", location='" + location + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", musicCount='" + musicCount + '\'' +
+                ", userId='" + userId + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

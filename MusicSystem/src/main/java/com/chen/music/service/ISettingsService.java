@@ -2,6 +2,7 @@ package com.chen.music.service;
 
 import com.chen.music.pojo.Settings;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chen.music.response.ResponseResult;
 
 /**
  * <p>
@@ -13,4 +14,21 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISettingsService extends IService<Settings> {
 
+    ResponseResult getWebSizeTitle();
+
+    ResponseResult putWebSizeTitle(String title);
+
+    ResponseResult getSizeViewCount();
+
+    void updateViewCount();
+
+    void updateTodayViewCount();
+
+    void updateHistoryViewCount();
+
+    ResponseResult getSevenHistory();
+
+    ResponseResult getMusicCount();
+
+    ResponseResult getMusicerCount();
 }
