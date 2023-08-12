@@ -63,7 +63,7 @@ public class PermissionService {
             return false;
         }
         System.out.println(user.toString());
-        if (Constants.User.ROLE_ADMIN_ID.equals(user.getRoleId())) {
+        if (Constants.User.ROLE_ADMIN_USER_ID.equals(user.getRoleId())) {
             //管理员
             return true;
         }

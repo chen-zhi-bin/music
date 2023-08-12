@@ -2,6 +2,7 @@ package com.chen.music.controller.portal;
 
 import com.chen.music.response.ResponseResult;
 import com.chen.music.service.IMusicService;
+import com.chen.music.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,15 +24,15 @@ public class MusicApi {
         }
     }
 
-//    @GetMapping("/list/recommend/{page}/{size}")
-//    public ResponseResult listRecommendMusics(@PathVariable("page") int page, @PathVariable("size") int size) {
-//        return iMusicService.listmusics(page,size,"1");
-//    }
+    @GetMapping("/list/recommend/{page}/{size}")
+    public ResponseResult listRecommendMusics(@PathVariable("page") int page, @PathVariable("size") int size) {
+        return iMusicService.getListMusic(page,size, Constants.Music.STATE_PUBLISH);
+    }
 
-//    @GetMapping("/list/top/{page}/{size}")
-//    public ResponseResult listTopMusics(@PathVariable("page") int page, @PathVariable("size") int size) {
-//        return iMusicService.listmusics(page,size,"3");
-//    }
+    @GetMapping("/list/top/{page}/{size}")
+    public ResponseResult listTopMusics(@PathVariable("page") int page, @PathVariable("size") int size) {
+        return iMusicService.getListMusic(page,size,Constants.Music.STATE_TOP);
+    }
 
     @GetMapping("/info/{musicId}")
     public ResponseResult getMusicInfo(@PathVariable("musicId") String musicId){

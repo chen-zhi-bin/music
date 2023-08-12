@@ -30,7 +30,7 @@ public interface ISettingsService extends IService<Settings> {
 
     ResponseResult getMusicCount();
 
-    ResponseResult getMusicerCount();
-
     ResponseResult getUserCount();
+
+    ResponseResult getMusicianCount();
 }

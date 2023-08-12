@@ -194,6 +194,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentDao, Comment> impleme
 
         QueryWrapper<SubCommentBean> subCommentQueryWrapper = new QueryWrapper<>();
         Page<SubCommentBean> subCommentPage = new Page<>(0, Constants.Music.PREDICT_SUB_COMMENT_SIZE);
+        subCommentPage.addOrder(OrderItem.desc("create_time"));
         for (Comment comment : commentList) {
             subCommentQueryWrapper.clear();
             subCommentQueryWrapper.eq("parent_id",comment.getId());
@@ -220,6 +221,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentDao, Comment> impleme
         page = CheckUtils.checkPage(page);
         size = CheckUtils.checkSize(size);
         Page<SubCommentBean> subCommentBeanPage = new Page<>(page-1,size);
+        subCommentBeanPage.addOrder(OrderItem.desc("create_time"));
         QueryWrapper<SubCommentBean> subCommentBeanQueryWrapper = new QueryWrapper<>();
         subCommentBeanQueryWrapper.eq("parent_id",commentId);
         Page<SubCommentBean> selectPage = subCommentDao.selectPage(subCommentBeanPage, subCommentBeanQueryWrapper);

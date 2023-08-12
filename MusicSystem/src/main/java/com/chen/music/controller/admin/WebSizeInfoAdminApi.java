@@ -31,12 +31,6 @@ public class WebSizeInfoAdminApi {
     }
 
     @PreAuthorize("@permission.superAdmin()||@permission.imageAdmin()||@permission.userAdmin()||@permission.musicAdmin()")
-    @GetMapping("/musicer_count")
-    public ResponseResult getMusicer(){
-        return webSizeInfoService.getMusicerCount();
-    }
-
-    @PreAuthorize("@permission.superAdmin()||@permission.imageAdmin()||@permission.userAdmin()||@permission.musicAdmin()")
     @GetMapping("/user_count")
     public ResponseResult getUserCount(){
         return webSizeInfoService.getUserCount();
@@ -52,5 +46,11 @@ public class WebSizeInfoAdminApi {
     @GetMapping("/seven_history")
     public ResponseResult getHistory(){
         return webSizeInfoService.getSevenHistory();
+    }
+
+    @PreAuthorize("@permission.superAdmin()||@permission.imageAdmin()||@permission.userAdmin()||@permission.musicAdmin()")
+    @GetMapping("/musician_count")
+    public ResponseResult getMusicianCount(){
+        return webSizeInfoService.getMusicianCount();
     }
 }

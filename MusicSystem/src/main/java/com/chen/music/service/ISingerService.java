@@ -16,4 +16,13 @@ public interface ISingerService extends IService<Singer> {
 
     ResponseResult uploadSinger(Singer singer);
 
+    ResponseResult deleteSingerById(String singerId);
+
+    ResponseResult recoverSingerById(String id);
+
+    ResponseResult getMusicianDeletedList(int page, int size);
+
+    ResponseResult getMusicianList(int page, int size);
+
+    ResponseResult musicianList(int page, int size);
 }

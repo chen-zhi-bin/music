@@ -5,7 +5,6 @@ import com.chen.music.mapper.FriendsToUserDao;
 import com.chen.music.pojo.Friends;
 import com.chen.music.mapper.FriendsDao;
 import com.chen.music.pojo.FriendsToUser;
-import com.chen.music.pojo.Music;
 import com.chen.music.pojo.User;
 import com.chen.music.pojo.vo.FriendLinkAndUserVo;
 import com.chen.music.response.ResponseResult;
@@ -92,7 +91,11 @@ public class FriendsServiceImpl extends ServiceImpl<FriendsDao, Friends> impleme
     @Override
     public ResponseResult getList() {
         User user = userService.checkUser();
-        if (user.getRoleId().equals(Constants.User.ROLE_NORMAL)) {
+        if (!user.getRoleId().equals(Constants.User.ROLE_ADMIN_SUPER_ID)||
+            !user.getRoleId().equals(Constants.User.ROLE_ADMIN_MUSIC_ID)||
+            !user.getRoleId().equals(Constants.User.ROLE_ADMIN_IMAGE_ID)||
+            !user.getRoleId().equals(Constants.User.ROLE_ADMIN_USER_ID)
+        ) {
             QueryWrapper<FriendsToUser> friendsToUserQueryWrapper = new QueryWrapper<>();
             friendsToUserQueryWrapper.eq("state","1");
             List<FriendsToUser> friendsToUsers = friendsToUserDao.selectList(friendsToUserQueryWrapper);

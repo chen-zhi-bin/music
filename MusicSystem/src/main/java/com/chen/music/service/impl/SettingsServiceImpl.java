@@ -3,6 +3,7 @@ package com.chen.music.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chen.music.mapper.*;
 import com.chen.music.pojo.Settings;
+import com.chen.music.pojo.Singer;
 import com.chen.music.pojo.solrInfo.SettingsNoDate;
 import com.chen.music.response.ResponseResult;
 import com.chen.music.service.ISettingsService;
@@ -421,19 +422,34 @@ public class SettingsServiceImpl extends ServiceImpl<SettingsDao, Settings> impl
     }
 
     @Override
-    public ResponseResult getMusicerCount() {
-        Long count = singerDao.selectCount(null);
-        HashMap<String, Object> res = new HashMap<>();
-        res.put("count",count);
-        return ResponseResult.SUCCESS("获取歌手数量成功").setData(res);
-    }
-
-    @Override
     public ResponseResult getUserCount() {
         Long count = userDao.selectCount(null);
         HashMap<String, Object> res = new HashMap<>();
         res.put("count",count);
         return ResponseResult.SUCCESS("获取用户数量成功").setData(res);
+    }
+
+    @Override
+    public ResponseResult getMusicianCount() {
+        HashMap<String, Object> res = new HashMap<>();
+        QueryWrapper<Singer> wrapper = new QueryWrapper<>();
+        wrapper.eq("sex",Constants.MusicianSex.TYPE_WOMAN);
+        Long woman = singerDao.selectCount(wrapper);
+        res.put("woman",woman);
+        wrapper.clear();
+        wrapper.eq("sex",Constants.MusicianSex.TYPE_MAN);
+        Long man = singerDao.selectCount(wrapper);
+        res.put("man",man);
+        wrapper.clear();
+        wrapper.eq("sex",Constants.MusicianSex.TYPE_COMBINATION);
+        Long combination = singerDao.selectCount(wrapper);
+        res.put("combination",combination);
+        wrapper.clear();
+        wrapper.eq("sex",Constants.MusicianSex.TYPE_NONE);
+        Long none = singerDao.selectCount(wrapper);
+        res.put("none",none);
+        res.put("total",woman+man+combination+none);
+        return ResponseResult.SUCCESS("获取歌手数量成功").setData(res);
     }
 
 

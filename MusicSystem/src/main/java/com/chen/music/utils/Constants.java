@@ -2,6 +2,12 @@ package com.chen.music.utils;
 
 public interface Constants {
 
+    interface MUSICIAN{
+        String STATE_DELETE="0";
+        String STATE_PUBLISH="1";
+        String STATE_TOP="3";
+    }
+
     interface Music{
         //1表示正常，0表示删除，3表示置顶
         String STATE_DELETE="0";
@@ -9,6 +15,13 @@ public interface Constants {
         String STATE_TOP="3";
         Long PREDICT_SUB_COMMENT_SIZE=3L;
 
+    }
+
+    interface MusicianSex{
+        String TYPE_WOMAN="0";
+        String TYPE_MAN="1";
+        String TYPE_COMBINATION="2";
+        String TYPE_NONE="3";
     }
 
     interface AdminPermission{
@@ -26,7 +39,7 @@ public interface Constants {
         String KEY_EMAIL_SEND_IP = "key_email_send_ip_";
         String KEY_EMAIL_SEND_ADDRESS = "key_email_send_address_";
         String KEY_TOKEN = "key_token_";
-        String ROLE_ADMIN_ID = "2";
+        String ROLE_ADMIN_USER_ID = "2";
         String ROLE_ADMIN_IMAGE_ID = "3";
         String ROLE_ADMIN_MUSIC_ID = "4";
         String ROLE_ADMIN_SUPER_ID = "1";

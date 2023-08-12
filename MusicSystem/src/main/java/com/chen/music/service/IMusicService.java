@@ -43,4 +43,6 @@ public interface IMusicService extends IService<Music> {
     ResponseResult getDeleteList(int page, int size);
 
     ResponseResult getListBySingId(String musicianId, int page, int size);
+
+    ResponseResult getListMusic(int page, int size, String state);
 }

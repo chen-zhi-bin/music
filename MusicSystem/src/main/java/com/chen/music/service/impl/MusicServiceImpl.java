@@ -11,6 +11,7 @@ import com.chen.music.pojo.Singer;
 import com.chen.music.pojo.User;
 import com.chen.music.pojo.solrInfo.MusicInfo;
 import com.chen.music.pojo.vo.MusicAndSingerVo;
+import com.chen.music.pojo.vo.MusicItem;
 import com.chen.music.pojo.vo.MusicUpdateInfoToUserVo;
 import com.chen.music.response.ResponseResult;
 import com.chen.music.service.IMusicService;
@@ -101,7 +102,8 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
             if (music != null) {
                 Map<String,Object> res= new HashMap<>();
                 res.put("name",music.getName());
-                res.put("id",music.getUrl());
+                res.put("url",music.getUrl());
+                res.put("id",music.getId());
                 res.put("highId",music.getFileHighUrl());
                 return ResponseResult.SUCCESS("音频已经存在").setData(res);
             }
@@ -134,7 +136,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         //限制文件大小
         long size = file.getSize();
         if (size>maxSize){
-            return ResponseResult.FAILED("图片最大仅支持"+(maxSize/1204/1024)+"MB");
+            return ResponseResult.FAILED("最大仅支持"+(maxSize/1204/1024)+"MB");
         }
         //创建图片保存目录
         //规则：配置目录/日期/类型/ID.类型
@@ -164,7 +166,8 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
 //            第一个是访问路径  --》得对应着来解析
             Map<String,Object> result = new HashMap<>();
             String resultPath = currentMillions + "_" + targetName + "." + type;
-            result.put("id",resultPath);
+            result.put("url",resultPath);
+            result.put("id",targetName);
             //            第二个是名称--》alt="图片描述",如果不写，前端可以通过名称作为这个描述
             result.put("name",originalFilename);
             Music music = new Music();
@@ -681,7 +684,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         }
         musicAndSingerVoPage.addOrder(OrderItem.desc("tb_music.create_time"));
         QueryWrapper<MusicUpdateInfoToUserVo> musicAndSingerVoQueryWrapper = new QueryWrapper<>();
-        musicAndSingerVoQueryWrapper.eq("tb_music.`singer_id`",musicianId);
+        musicAndSingerVoQueryWrapper.like("tb_music.`singer_id`",musicianId);
         IPage<MusicUpdateInfoToUserVo> musicList = musicDao.getMusicListByPage(musicAndSingerVoPage, musicAndSingerVoQueryWrapper);
         log.info(musicList.toString());
 //        log.info(offset+"");
@@ -691,6 +694,23 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         res.put("maxPage",musicList.getPages());
         res.put("currentPage",page);
         return ResponseResult.SUCCESS("获取成功").setData(res);
+    }
+
+    @Override
+    public ResponseResult getListMusic(int page, int size, String state) {
+        page = CheckUtils.checkPage(page);
+        size = CheckUtils.checkSize(size);
+        Page<MusicItem> musicItemPage = new Page<>(page-1, size);
+        musicItemPage.addOrder(OrderItem.desc("tb_music.create_time"));
+        QueryWrapper<MusicItem> musicItemQueryWrapper = new QueryWrapper<>();
+        musicItemQueryWrapper.eq("tb_music.`state`",state);
+        IPage<MusicItem> res = musicDao.getMusicList(musicItemPage, musicItemQueryWrapper);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("list",res.getRecords());
+        map.put("maxpage",res.getPages());
+        map.put("currentPage",page);
+        map.put("hasMore",res.getPages()>page);
+        return ResponseResult.SUCCESS("获取推荐成功").setData(map);
     }
 
     private String getType(String contentType,String name){

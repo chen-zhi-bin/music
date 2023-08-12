@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chen.music.pojo.Music;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chen.music.pojo.vo.MusicAndSingerVo;
+import com.chen.music.pojo.vo.MusicItem;
 import com.chen.music.pojo.vo.MusicUpdateInfoToUserVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -35,6 +36,7 @@ public interface MusicDao extends BaseMapper<Music> {
 //    IPage<MusicAndSingerVo> getMusicListByPage(IPage<MusicAndSingerVo> page,
 //                                               @Param("ew") Wrapper wrapper);
 
+    //admin使用
     @Select("SELECT tb_music.id AS music_id,\n" +
             "           tb_music.`name` AS music_name,\n" +
             "           tb_music.`url`,\n" +
@@ -52,6 +54,16 @@ public interface MusicDao extends BaseMapper<Music> {
                                                       @Param("ew") Wrapper wrapper);
 
 
+    //门户
+    @Select("SELECT tb_music.id AS music_id,\n" +
+            "           tb_music.`name` AS music_name,\n" +
+            "           tb_music.`url`,\n" +
+            "           tb_music.`file_high_url`,\n" +
+            "           tb_music.`create_time`,\n" +
+            "           tb_singer.`name` AS singr_name  FROM tb_music LEFT JOIN tb_singer ON tb_singer.`id` = tb_music.`singer_id`" +
+            "${ew.customSqlSegment}")
+    IPage<MusicItem> getMusicList(IPage<MusicItem> page,
+                                  @Param("ew") Wrapper wrapper);
 
     @Update("UPDATE `tb_music` set `state`=3 where `id` = #{id}")
     int updateMusicAddTop(@Param("id")String id);
