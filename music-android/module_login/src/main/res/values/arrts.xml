@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoginEditView">
+        <attr name="inputLeftIcon" format="reference"/>
+        <attr name="inputHint" format="string"/>
+        <attr name="isPassword" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="CodeEditView">
+        <attr name="codeLeftIcon" format="reference"/>
+        <attr name="codeHint" format="string"/>
+        <attr name="isPhoneCode" format="boolean"/>
+    </declare-styleable>
+</resources>

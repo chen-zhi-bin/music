@@ -1,6 +1,6 @@
 ext {
     //表示是作为module还是application
-    isModule = true
+    isModule = false
     //applicationId版本好sdkVersion统一管理
     android = [
             compileSdkVersion        : 31,
@@ -19,10 +19,13 @@ ext {
 
     def APPCOMPAT_VERSION="1.1.0"
     def MATERIAL_VESION="1.1.0"
-    def AROUTER_VERSION = "1.4.1"
+    def AROUTER_VERSION = "1.5.2"
     def AROUTER_COMPILER_VERSION = "1.5.2"
     def AROUTER_API_VERSION = "1.5.2"
-
+    def LOADSIR_API_VERSION = "1.3.8"
+    def TOAST_VERSION = "10.5"
+    def GLIDE_VERSION="4.9.0"
+    def GLIDE_COMPILER_VERSION="4.9.0"
     //三方库统一管理
     dependencies = [
             appcompatV7     : 'com.android.support:appcompat-v7:' + APPCOMPAT_V7_VERSION,
@@ -32,7 +35,11 @@ ext {
             material            :'com.google.android.material:material:'+MATERIAL_VESION,
             arouter             : 'com.alibaba:arouter-api:' + AROUTER_VERSION,
             arouterCompiler     : 'com.alibaba:arouter-compiler:' + AROUTER_COMPILER_VERSION,
-            arouterapi          :'com.alibaba:arouter-api:'+AROUTER_API_VERSION
+            arouterapi          :'com.alibaba:arouter-api:'+AROUTER_API_VERSION,
+            loadsir             :'com.kingja.loadsir:loadsir:'+LOADSIR_API_VERSION,
+            glide               : 'com.github.bumptech.glide:glide:'+GLIDE_VERSION,
+            glide_compiler      :'com.github.bumptech.glide:compiler:'+GLIDE_COMPILER_VERSION,
+            toast               :'com.github.getActivity:ToastUtils:'+TOAST_VERSION
     ]
 }
 

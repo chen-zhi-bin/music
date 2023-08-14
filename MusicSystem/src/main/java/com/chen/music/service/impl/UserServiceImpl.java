@@ -421,6 +421,10 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
         HttpServletResponse response = requestAttributes.getResponse();
         //拿到token_key
         String tokenKey = CookieUtils.getCookie(request, Constants.User.COOKIE_TOKEN_KEY);
+        if (tokenKey==null){
+            tokenKey = request.getHeader(Constants.User.COOKIE_TOKEN_KEY);
+            System.out.println();
+        }
         log.info("checkSobUser tokenKey ==>" + tokenKey);
         User user = parseByToken(tokenKey);
         if (user == null) {
