@@ -1,0 +1,98 @@
+ext {
+    //表示是作为module还是application          true集合
+    isModule = true
+    //applicationId版本好sdkVersion统一管理
+    android = [
+            compileSdkVersion        : 31,
+            buildToolsVersion        : 31,
+            applicationId            : "com.czb.music",
+            minSdkVersion            : 21,
+            targetSdkVersion         : 31,
+            versionCode              : 1,
+            versionName              : "1.0",
+            testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner"
+    ]
+
+//版本号
+    def APPCOMPAT_V7_VERSION = "28.0.0"
+    def CONSTRAINT_LAYOUT_VERSION = "1.1.3"
+    def APPCOMPAT_VERSION="1.1.0"
+    def MATERIAL_VESION="1.1.0"
+    def AROUTER_VERSION = "1.4.1"
+    def AROUTER_COMPILER_VERSION = "1.5.2"
+    def AROUTER_API_VERSION = "1.5.2"
+    def BUTTERKNIFE_VERSION="10.2.1"
+    def BUTTERKNIFE_COMPILER_VERSION="10.2.1"
+    def RECYCLERVIEW_VERSION="1.1.0"
+    def RETROFIT_VERSION="2.9.0"
+    def RETROFIT_CONVERTER_VERSION="2.7.0"
+    def RETROFIT_CONVERTER_SCALARS_VERSION="2.9.0"
+    def RETROFIT_ADAPTER_RXJAVA3_VERSION="2.9.0"
+    def RXJAVA_VERSION = "3.1.3"
+    def RXJAVA_ANDROID_VERSION="3.0.0"
+    def RXLIFECYCLE_VERSION="4.0.2"
+    def RXLIFECYCLE_COMPONENTS_VERSION="4.0.2"
+    def RXLIFCYCLE_ANDROID_VERSION="4.0.2"
+
+    def GLIDE_VERSION="4.9.0"
+    def GLIDE_COMPILER_VERSION="4.9.0"
+
+    def REFRESH_LAYOUT_VERSION = "2.0.5"
+    def REFRESH_HEADER_VERSION = "2.0.5"
+    def REFRESH_FOOTER_VERSION = "2.0.5"
+
+    def ROUNDED_IMAGEVIEW_VERSION = "2.3.0"
+
+    def SUPERTEXT_VERSION = "2.4.6"
+    def BASE_QUICK_ADAPTER_VERSION = "3.0.2"
+    def BANNER_VERSION="2.1.0"
+
+    def MOJITO_VERSION="1.8.5"
+
+    def CODEVIEW_VERSION="0.3.1"        //显示代码之类
+    def JSOUP_VERSION="1.11.1"
+    def PERMISSIONS_VERSION="13.2"
+    def SHAPE_VIEW_VERSION="8.5"
+    def TITLE_BAR_VERSION="9.6"
+    //三方库统一管理_VERSION
+    dependencies = [
+            appcompatV7         : 'com.android.support:appcompat-v7:' + APPCOMPAT_V7_VERSION,
+            constraintLayout    : 'com.android.support.constraint:constraint-layout:' + CONSTRAINT_LAYOUT_VERSION,
+            appcompat           :'androidx.appcompat:appcompat:'+APPCOMPAT_VERSION,
+            material            :'com.google.android.material:material:'+MATERIAL_VESION,
+            arouter             : 'com.alibaba:arouter-api:' + AROUTER_VERSION,
+            arouterCompiler     : 'com.alibaba:arouter-compiler:' + AROUTER_COMPILER_VERSION,
+            butterknife         :'com.jakewharton:butterknife:' + BUTTERKNIFE_VERSION,
+            butterknifeCompiler :'com.jakewharton:butterknife-compiler:' + BUTTERKNIFE_COMPILER_VERSION,
+            recyclerview        :'androidx.recyclerview:recyclerview:'+RECYCLERVIEW_VERSION,
+
+            retrofit2           :    'com.squareup.retrofit2:retrofit:'+RETROFIT_VERSION,                                   //retrofit2
+            converter_gson      :'com.squareup.retrofit2:converter-gson:'+RETROFIT_CONVERTER_VERSION,                       //retrofit2
+            retrofit2_converter_scalars:'com.squareup.retrofit2:converter-scalars:'+RETROFIT_CONVERTER_SCALARS_VERSION,     //retrofit2+rxjava
+            retrofit2_rxjava3:'com.squareup.retrofit2:adapter-rxjava3:'+RETROFIT_ADAPTER_RXJAVA3_VERSION,                   //retrofit+rxjava
+            rxjava              :'io.reactivex.rxjava3:rxjava:'+RXJAVA_VERSION,
+            rxjava_android      :'io.reactivex.rxjava3:rxandroid:'+RXJAVA_ANDROID_VERSION,
+            rxlifecycle         :'com.trello.rxlifecycle4:rxlifecycle:'+RXLIFECYCLE_VERSION,                                //rxjava生命周期相关
+            rxlifecycle_android_rx         :'com.trello.rxlifecycle4:rxlifecycle-android:'+RXLIFCYCLE_ANDROID_VERSION,                                //rxjava生命周期相关
+            rxlifecycle_compontent:'com.trello.rxlifecycle4:rxlifecycle-components:'+RXLIFECYCLE_COMPONENTS_VERSION,        //rxjava生命周期相关
+            rxlifecycle_android :'com.trello.rxlifecycle3:rxlifecycle-android-lifecycle:'+RXJAVA_ANDROID_VERSION,            //使自动取消订阅更加灵活
+
+            glide               : 'com.github.bumptech.glide:glide:'+GLIDE_VERSION,
+            glide_compiler      :'com.github.bumptech.glide:compiler:'+GLIDE_COMPILER_VERSION,
+            arouterapi          :'com.alibaba:arouter-api:'+AROUTER_API_VERSION,
+            refresh_layout      :'io.github.scwang90:refresh-layout-kernel:'+REFRESH_LAYOUT_VERSION,      //核心必须依赖
+            refresh_header      :'io.github.scwang90:refresh-header-classics:'+REFRESH_HEADER_VERSION,                     //经典刷新头
+            refresh_footer      :'io.github.scwang90:refresh-footer-classics:'+REFRESH_FOOTER_VERSION,                     //经典加载
+            roundedimageview    :'com.makeramen:roundedimageview:'+ROUNDED_IMAGEVIEW_VERSION,                //圆角头像
+            super_text_view     :'com.github.lygttpod:SuperTextView:'+SUPERTEXT_VERSION,
+            basequick_adapter   :'com.github.CymChad:BaseRecyclerViewAdapterHelper:'+BASE_QUICK_ADAPTER_VERSION,
+            banner              :'com.youth.banner:banner:'+BANNER_VERSION,
+            mojito_version      :'com.github.mikaelzero.mojito:mojito:'+MOJITO_VERSION,          //浏览图片
+            mojito_image_view_loader: "com.github.mikaelzero.mojito:SketchImageViewLoader:"+MOJITO_VERSION,
+            codeview            :'thereisnospon.codeview:codeview:'+CODEVIEW_VERSION,
+            jsoup               :'org.jsoup:jsoup:'+JSOUP_VERSION,
+            permissions         :'com.github.getActivity:XXPermissions:'+PERMISSIONS_VERSION,
+            shape_view          :'com.github.getActivity:ShapeView:'+SHAPE_VIEW_VERSION,
+            titlebar            :'com.github.getActivity:TitleBar:'+TITLE_BAR_VERSION
+    ]
+}

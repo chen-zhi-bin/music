@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0071E0</color>
+    <color name="colorPrimaryDark">#f5f5f5</color>
+    <color name="colorAccent">#0084FF</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+    <color name="textPrimary">#333333</color>
+    <color name="textSecondary">#555555</color>
+    <color name="colorVip">#FEBD17</color>
+    <color name="colorVip2">#FC9800</color>
+    <color name="colorWarning">#F5222D</color>
+    <color name="colorSuccess">#49BD38</color>
+    <color name="colorOther">#F37A5E</color>
+
+    <color name="deep_white">#fafafa</color>
+    <color name="main_grey">#f5f5f5</color>
+    <color name="deep_white2">#E8E8E8</color>
+
+
+    <color name="icon_color">#707070</color>
+    <color name="grey_light">#747474</color>
+    <color name="deliver_line_white">#40E8E8E8</color>
+    <color name="deliver_line_black">#40808080</color>
+    <!-- item 选中的灰色 -->
+    <color name="item_selector">#F0F0F0</color>
+    <!-- 默认的文本颜色 -->
+    <color name="default_font_color">#8A000000</color>
+    <!-- 矢量图标的颜色 -->
+    <color name="common_icon_color">#7C7C7C</color>
+    <!-- 蓝色 -->
+    <color name="blue">#FF0000FF</color>
+    <!-- 红色 -->
+    <color name="red">#FFFF0000</color>
+</resources>

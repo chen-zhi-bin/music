@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_20"
+        android:src="@mipmap/ic_close"
+        android:scaleType="center"
+        />
+    <TextView
+        android:id="@+id/tv_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:text="@string/login_app_name"
+        android:textSize="@dimen/dp_16"
+        android:textColor="@color/textSecondary"
+        android:textStyle="bold"
+        android:drawablePadding="@dimen/dp_10"
+        android:drawableTop="@mipmap/ic_launcher_round" />
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingRight="@dimen/dp_30"
+        android:paddingLeft="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_20"
+
+        android:layout_below="@+id/tv_logo"
+        android:orientation="vertical" />
+
+
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_20"
+        android:text="注册账号"
+        android:textSize="@dimen/sp_13"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@+id/layout"
+        android:layout_marginLeft="@dimen/dp_20"
+        app:layout_constraintLeft_toLeftOf="@+id/layout"
+        app:layout_constraintTop_toBottomOf="@+id/layout" />
+
+    <TextView
+        android:id="@+id/tv_forget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_20"
+        android:text="忘记密码"
+        android:textSize="@dimen/sp_13"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@+id/layout"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_20"
+        app:layout_constraintRight_toRightOf="@+id/layout"
+        app:layout_constraintTop_toBottomOf="@+id/layout" />
+    <TextView
+        android:id="@+id/tv_agreement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:text="@string/login_agreement"
+        android:textSize="@dimen/sp_12" />
+</RelativeLayout>
