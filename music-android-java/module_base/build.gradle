@@ -62,4 +62,10 @@ dependencies {
     implementation rootProject.ext.dependencies.rxlifecycle
     implementation rootProject.ext.dependencies.rxlifecycle_compontent
     implementation rootProject.ext.dependencies.rxlifecycle_android
+
+    implementation rootProject.ext.dependencies.refresh_layout
+    implementation rootProject.ext.dependencies.refresh_header
+    implementation rootProject.ext.dependencies.refresh_footer
+
+    implementation rootProject.ext.dependencies.basequick_adapter
 }

@@ -47,7 +47,7 @@ public interface MusicDao extends BaseMapper<Music> {
             "           tb_user.`id` AS user_id,\n" +
             "           tb_user.`user_name`,\n" +
             "           tb_music.`state`,\n" +
-            "           tb_singer.`name` AS singr_name  FROM tb_music LEFT JOIN tb_singer ON tb_singer.`id` = tb_music.`singer_id`\n" +
+            "           tb_singer.`name` AS singer_name  FROM tb_music LEFT JOIN tb_singer ON tb_singer.`id` = tb_music.`singer_id`\n" +
             "\t\tJOIN tb_user ON tb_music.`user_id` = tb_user.`id`" +
             "${ew.customSqlSegment}")
     IPage<MusicUpdateInfoToUserVo> getMusicListByPage(IPage<MusicUpdateInfoToUserVo> page,
@@ -60,7 +60,8 @@ public interface MusicDao extends BaseMapper<Music> {
             "           tb_music.`url`,\n" +
             "           tb_music.`file_high_url`,\n" +
             "           tb_music.`create_time`,\n" +
-            "           tb_singer.`name` AS singr_name  FROM tb_music LEFT JOIN tb_singer ON tb_singer.`id` = tb_music.`singer_id`" +
+            "           tb_music.`pic_id`," +
+            "           tb_music.`singer_name` AS singer_name  FROM tb_music LEFT JOIN tb_singer ON tb_singer.`id` = tb_music.`singer_id`" +
             "${ew.customSqlSegment}")
     IPage<MusicItem> getMusicList(IPage<MusicItem> page,
                                   @Param("ew") Wrapper wrapper);

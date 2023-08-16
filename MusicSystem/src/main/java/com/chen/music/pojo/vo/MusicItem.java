@@ -10,6 +10,7 @@ public class MusicItem {
     private String fileHighUrl;
     private Date createTime;
     private String singerName;
+    private String picId;
 
     @Override
     public String toString() {
@@ -20,7 +21,16 @@ public class MusicItem {
                 ", fileHighUrl='" + fileHighUrl + '\'' +
                 ", createTime=" + createTime +
                 ", singerName='" + singerName + '\'' +
+                ", picId='" + picId + '\'' +
                 '}';
+    }
+
+    public String getPicId() {
+        return picId;
+    }
+
+    public void setPicId(String picId) {
+        this.picId = picId;
     }
 
     public String getMusicId() {
