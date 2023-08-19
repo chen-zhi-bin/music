@@ -149,6 +149,8 @@ public class TopMusicBean implements Serializable {
             private String singerName;
             @SerializedName("picId")
             private String picId;
+            @SerializedName("duration")
+            private Long duration;
 
             public String getPicId() {
                 return picId;
@@ -206,6 +208,14 @@ public class TopMusicBean implements Serializable {
                 this.singerName = singerName;
             }
 
+            public Long getDuration() {
+                return duration;
+            }
+
+            public void setDuration(Long duration) {
+                this.duration = duration;
+            }
+
             @Override
             public String toString() {
                 return "ListBean{" +
@@ -216,6 +226,7 @@ public class TopMusicBean implements Serializable {
                         ", createTime='" + createTime + '\'' +
                         ", singerName='" + singerName + '\'' +
                         ", picId='" + picId + '\'' +
+                        ", duration=" + duration +
                         '}';
             }
 

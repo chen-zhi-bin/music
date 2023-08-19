@@ -54,4 +54,11 @@ public class MusicApi {
     }
 
 
+    @GetMapping("/list/{musicianId}/{page}/{size}")
+    public ResponseResult getMusicListByMusicianId(
+            @PathVariable("musicianId") String musicianId,
+            @PathVariable("page") int page,
+            @PathVariable("size") int size){
+        return iMusicService.getMusicListByMusicianId(musicianId,page,size);
+    }
 }

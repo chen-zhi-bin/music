@@ -11,6 +11,7 @@ public class MusicItem {
     private Date createTime;
     private String singerName;
     private String picId;
+    private String duration;
 
     @Override
     public String toString() {
@@ -22,6 +23,7 @@ public class MusicItem {
                 ", createTime=" + createTime +
                 ", singerName='" + singerName + '\'' +
                 ", picId='" + picId + '\'' +
+                ", duration='" + duration + '\'' +
                 '}';
     }
 
@@ -79,5 +81,13 @@ public class MusicItem {
 
     public void setSingerName(String singerName) {
         this.singerName = singerName;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 }

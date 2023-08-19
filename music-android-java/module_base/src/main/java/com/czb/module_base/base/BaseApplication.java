@@ -10,6 +10,8 @@ import com.czb.module_base.callback.EmptyCallback;
 import com.czb.module_base.callback.ErrorCallback;
 import com.czb.module_base.callback.LoadingCallback;
 import com.kingja.loadsir.core.LoadSir;
+import com.lzx.starrysky.StarrySky;
+import com.lzx.starrysky.notification.INotification;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -34,6 +36,18 @@ public class BaseApplication extends Application {
         initARouter();
         initLoadSir();
         initSmartRefreshLayout();
+        initStarrSky();
+    }
+
+
+
+    private void initStarrSky() {
+        StarrySky.init(this)
+                .setOpenCache(true)
+                .setNotificationSwitch(true)
+                .setNotificationType(INotification.SYSTEM_NOTIFICATION)
+                .apply();
+
     }
 
     private void initSmartRefreshLayout() {

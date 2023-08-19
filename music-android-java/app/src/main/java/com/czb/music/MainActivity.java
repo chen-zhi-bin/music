@@ -30,6 +30,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
+import com.lzx.starrysky.StarrySky;
 
 public class MainActivity extends BaseActivity {
     private FragmentManager mFm;
@@ -206,12 +207,11 @@ public class MainActivity extends BaseActivity {
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();
+                StarrySky.closeNotification();
                 System.exit(0);
             }
             return true;
         }
         return super.onKeyDown(keyCode, event);
-
-
     }
 }

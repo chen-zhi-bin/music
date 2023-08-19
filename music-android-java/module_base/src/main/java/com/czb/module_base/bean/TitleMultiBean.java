@@ -12,13 +12,20 @@ public class TitleMultiBean implements MultiItemEntity {
 
     private String title;
 
-    public TitleMultiBean(String s) {
+    private String type;
+
+    public TitleMultiBean(String s,String type) {
         this.title = s;
+        this.type = type;
     }
 
     @Override
     public int getItemType() {
         return Constants.MultiItemType.TYPE_TITLE;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getTitle() {

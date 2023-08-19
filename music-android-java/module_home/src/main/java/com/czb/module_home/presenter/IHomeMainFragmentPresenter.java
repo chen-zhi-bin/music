@@ -12,4 +12,6 @@ public interface IHomeMainFragmentPresenter extends IBasePresenter<IHomeMainFrag
     void getRecommend(int page);
 
     void getRecommendMore();
+
+    void getRecommendSingList();
 }

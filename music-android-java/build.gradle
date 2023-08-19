@@ -28,7 +28,9 @@ allprojects {
         maven {
             //导航栏，指示器
             url "https://jitpack.io"
+
         }
+//        maven{url 'https://dl.bintray.com/lizixian/MusicLibrary'}
     }
 }
 

@@ -35,4 +35,8 @@
     <color name="blue">#FF0000FF</color>
     <!-- 红色 -->
     <color name="red">#FFFF0000</color>
+
+    <color name="text_Grey">#c1c1c2</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="blue_light">#89CFF0</color>
 </resources>

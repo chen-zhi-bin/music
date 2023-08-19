@@ -153,7 +153,9 @@ public class RecommendMusicBean implements Serializable {
             @SerializedName("singerName")
             private String singerName;
             @SerializedName("picId")
-            private Object picId;
+            private String picId;
+            @SerializedName("duration")
+            private Long duration;
 
             public String getMusicId() {
                 return musicId;
@@ -203,12 +205,20 @@ public class RecommendMusicBean implements Serializable {
                 this.singerName = singerName;
             }
 
-            public Object getPicId() {
+            public String getPicId() {
                 return picId;
             }
 
-            public void setPicId(Object picId) {
+            public void setPicId(String picId) {
                 this.picId = picId;
+            }
+
+            public Long getDuration() {
+                return duration;
+            }
+
+            public void setDuration(Long duration) {
+                this.duration = duration;
             }
 
             @Override
@@ -221,6 +231,7 @@ public class RecommendMusicBean implements Serializable {
                         ", createTime='" + createTime + '\'' +
                         ", singerName='" + singerName + '\'' +
                         ", picId=" + picId +
+                        ", duration=" + duration +
                         '}';
             }
 

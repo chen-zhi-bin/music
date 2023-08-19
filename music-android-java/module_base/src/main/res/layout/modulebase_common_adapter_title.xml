@@ -24,4 +24,36 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
+    <ImageView
+        android:id="@+id/tv_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginRight="@dimen/dp_2"
+        android:src="@mipmap/play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_title_right"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_water_selector"
+        android:padding="@dimen/dp_2"
+        android:text="全部播放"
+        android:textSize="@dimen/sp_15"
+        android:layout_marginRight="@dimen/dp_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iv_more"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_more"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="match_parent"
+        android:src="@mipmap/ic_more_stand"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -281,8 +281,10 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         try {
             if (type.equals(Constants.MusicType.TYPE_MP3)){
                 response.setContentType(Constants.MusicType.TYPE_MP3_WITH_PREFIX_AUDIO);
+                System.out.println(Constants.MusicType.TYPE_MP3_WITH_PREFIX_AUDIO);
             }else if (type.equals(Constants.MusicType.TYPE_FLAC)){
                 response.setContentType(Constants.MusicType.TYPE_FLAC_WITH_PREFIX_AUDIO);
+                System.out.println(Constants.MusicType.TYPE_FLAC_WITH_PREFIX_AUDIO);
             }
             writer = response.getOutputStream();
             //读取
@@ -505,7 +507,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         page=CheckUtils.checkPage(page);
         size=CheckUtils.checkSize(size);
 
-        Page<MusicUpdateInfoToUserVo> musicAndSingerVoPage = new Page<>(page-1, size);
+        Page<MusicUpdateInfoToUserVo> musicAndSingerVoPage = new Page<>(page, size);
         musicAndSingerVoPage.addOrder(OrderItem.desc("create_time"));
         QueryWrapper<MusicUpdateInfoToUserVo> musicAndSingerVoQueryWrapper = new QueryWrapper<>();
         musicAndSingerVoQueryWrapper.ne("tb_music.`state`","0");
@@ -650,7 +652,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         page=CheckUtils.checkPage(page);
         size=CheckUtils.checkSize(size);
 
-        Page<MusicUpdateInfoToUserVo> musicAndSingerVoPage = new Page<>(page-1, size);
+        Page<MusicUpdateInfoToUserVo> musicAndSingerVoPage = new Page<>(page, size);
         musicAndSingerVoPage.addOrder(OrderItem.desc("create_time"));
         QueryWrapper<MusicUpdateInfoToUserVo> musicAndSingerVoQueryWrapper = new QueryWrapper<>();
         musicAndSingerVoQueryWrapper.eq("tb_music.`state`",Constants.Music.STATE_DELETE);
@@ -673,7 +675,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         if (user == null) {
             return ResponseResult.ACCOUNT_NOT_LOGIN();
         }
-        Page<MusicUpdateInfoToUserVo> musicAndSingerVoPage = new Page<>(page-1, size);
+        Page<MusicUpdateInfoToUserVo> musicAndSingerVoPage = new Page<>(page, size);
         QueryWrapper<MusicUpdateInfoToUserVo> musicUpdateInfoToUserVoQueryWrapper = null;
         if (!user.getRoleId().equals(Constants.User.ROLE_ADMIN_SUPER_ID)||
             !user.getRoleId().equals(Constants.User.ROLE_ADMIN_MUSIC_ID)){
@@ -700,7 +702,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
     public ResponseResult getListMusic(int page, int size, String state) {
         page = CheckUtils.checkPage(page);
         size = CheckUtils.checkSize(size);
-        Page<MusicItem> musicItemPage = new Page<>(page-1, size);
+        Page<MusicItem> musicItemPage = new Page<>(page, size);
         musicItemPage.addOrder(OrderItem.desc("tb_music.create_time"));
         QueryWrapper<MusicItem> musicItemQueryWrapper = new QueryWrapper<>();
         musicItemQueryWrapper.eq("tb_music.`state`",state);
@@ -711,6 +713,24 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         map.put("currentPage",page);
         map.put("hasMore",res.getPages()>page);
         return ResponseResult.SUCCESS("获取推荐成功").setData(map);
+    }
+
+    @Override
+    public ResponseResult getMusicListByMusicianId(String musicianId, int page, int size) {
+        page = CheckUtils.checkPage(page);
+        size = CheckUtils.checkSize(size);
+        Page<MusicItem> musicItemPage = new Page<>(page, size);
+        musicItemPage.addOrder(OrderItem.desc("tb_music.create_time"));
+        QueryWrapper<MusicItem> musicItemQueryWrapper = new QueryWrapper<>();
+        musicItemQueryWrapper.ne("tb_music.`state`","0");
+        musicItemQueryWrapper.like("tb_music.singer_id",musicianId);
+        IPage<MusicItem> res = musicDao.getMusicList(musicItemPage, musicItemQueryWrapper);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("list",res.getRecords());
+        map.put("maxpage",res.getPages());
+        map.put("currentPage",page);
+        map.put("hasMore",res.getPages()>page);
+        return ResponseResult.SUCCESS("获取成功").setData(map);
     }
 
     private String getType(String contentType,String name){

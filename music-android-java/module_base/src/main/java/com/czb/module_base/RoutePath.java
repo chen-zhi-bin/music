@@ -16,7 +16,11 @@ public class RoutePath {
     }
 
     public static class Home{
+        public static final String MUSICIAN="musician";
+
         public static final String SERVICE_HOME="/home/SERVICE_HOME";
+        public static final String DETAIL_MUSICIAN_HOME="/home/musician";
+        public static final String DETAIL_MUSIC_MORE="/home/music_more";
     }
 
     public static class Moyu{

@@ -7,7 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.czb.module_base.common.Constants;
 import com.google.gson.annotations.SerializedName;
+import com.lzx.starrysky.StarrySky;
+import com.lzx.starrysky.control.PlayerControl;
+
 
 import java.io.Serializable;
 import java.util.List;
@@ -38,44 +42,51 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
 
 
-
-        api = retrofit.create(LoginApi.class);
-
-        String se;
-
-        Call<Bean> task = api.login("rzu3n", "12345678901234567", new LoginInBean("super_admin", "123456"));
-        task.enqueue(new Callback<Bean>() {
-            @Override
-            public void onResponse(Call<Bean> call, Response<Bean> response) {
-                Log.d("tet","resasdasd  ==>"+response.body());
-//                Toast.makeText(TestActivity.this,"res ="+response.body().toString(),Toast.LENGTH_LONG).show();
-                Toast.makeText(TestActivity.this,"res ="+response.headers().get("Set-Cookie"),Toast.LENGTH_LONG).show();
-                if (response.body().success){
-                    String s = response.headers().get("Set-Cookie");
-                    String[] split = s.split(";");
-                    String[] split1 = split[0].split("=");
-                    Log.d("test","s == "+s);
-                    testS=split1[1];
-                    Log.d("test","s == "+testS);
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<Bean> call, Throwable t) {
-
-            }
-        });
+        PlayerControl control = StarrySky.with();
+        control.playMusicByUrl(Constants.BASE_URL+"/music/1691750512218_1139629777351606272.mp3");
+//        control.playMusicByUrl(Constants.BASE_URL+"/music/1691750576251_1139630045925474304.flac");
 
         this.findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                getCollection(testS);
-                getCollection("0715aacf0d01f8a6c70e109e6af0adf2");
-
+                if (control.isPlaying()) {
+                    control.pauseMusic();
+                }else{
+                    control.pauseMusic();
+                }
             }
         });
+
+//        api = retrofit.create(LoginApi.class);
+//
+//        String se;
+//
+//        Call<Bean> task = api.login("rzu3n", "12345678901234567", new LoginInBean("super_admin", "123456"));
+//        task.enqueue(new Callback<Bean>() {
+//            @Override
+//            public void onResponse(Call<Bean> call, Response<Bean> response) {
+//                Log.d("tet","resasdasd  ==>"+response.body());
+//                Toast.makeText(TestActivity.this,"res ="+response.headers().get("Set-Cookie"),Toast.LENGTH_LONG).show();
+//                if (response.body().success){
+//                    String s = response.headers().get("Set-Cookie");
+//                    String[] split = s.split(";");
+//                    String[] split1 = split[0].split("=");
+//                    Log.d("test","s == "+s);
+//                    testS=split1[1];
+//                    Log.d("test","s == "+testS);
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<Bean> call, Throwable t) {}
+//        });
+//        this.findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                getCollection(testS);
+//                getCollection("0715aacf0d01f8a6c70e109e6af0adf2");
+//
+//            }
+//        });
 
     }
 

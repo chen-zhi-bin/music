@@ -56,6 +56,7 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.6.1'
@@ -88,5 +89,7 @@ dependencies {
 
     implementation rootProject.ext.dependencies.glide
     annotationProcessor rootProject.ext.dependencies.glide_compiler
+
+    implementation 'com.github.EspoirX:StarrySky:v2.6.3'
     api project(':module_base')
 }

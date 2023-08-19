@@ -1,12 +1,15 @@
 package com.czb.module_base.common.service.home.wrap;
 
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.czb.module_base.RoutePath;
+import com.czb.module_base.common.Constants;
 import com.czb.module_base.common.service.home.IHomeService;
 import com.czb.module_base.common.service.moyu.wrap.MoyuServiceWrap;
 
@@ -37,7 +40,21 @@ public class HomeServiceWrap {
 //       mService = (IHomeService) ARouter.getInstance().build(RoutePath.Home.SERVICE_HOME).navigation();
    }
 
-   public static final class Singletion{
+    public void launchMusician(Parcelable item) {
+        ARouter.getInstance()
+                .build(RoutePath.Home.DETAIL_MUSICIAN_HOME)
+                .withParcelable(RoutePath.Home.MUSICIAN,item)
+                .navigation();
+    }
+
+    public void launchMoreMusic(String key) {
+        ARouter.getInstance()
+                .build(RoutePath.Home.DETAIL_MUSIC_MORE)
+                .withString(Constants.MusicType.TYPE,key)
+                .navigation();
+    }
+
+    public static final class Singletion{
        private static final HomeServiceWrap holder;
        public static final HomeServiceWrap.Singletion INSTANCE;
 

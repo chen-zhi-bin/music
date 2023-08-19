@@ -5,10 +5,64 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/layout"
+        android:background="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="@dimen/dp_42">
+
+        <com.hjq.shape.layout.ShapeLinearLayout
+            android:layout_marginTop="@dimen/dp_6"
+            android:id="@+id/searchContainer"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginHorizontal="@dimen/dp_14"
+            android:gravity="center_vertical"
+            android:transitionName="searchView"
+            app:shape_radius="999dp"
+            app:shape_solidColor="#f4f4f4">
+
+            <ImageView
+                android:id="@+id/searchIv"
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="14dp"
+                android:src="@mipmap/discover_ic" />
+
+            <EditText
+                android:focusable="false"
+                android:id="@+id/homeSearchTv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="10dp"
+                android:layout_toEndOf="@id/searchIv"
+                android:gravity="center_vertical"
+                android:background="#00FFFFFF"
+                android:hint="搜索"
+                android:textSize="@dimen/sp_14" />
+
+
+        </com.hjq.shape.layout.ShapeLinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_search"/>
+
+    </LinearLayout>
+
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
         app:srlReboundDuration="600">
 
@@ -19,4 +73,56 @@
             android:overScrollMode="never" />
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@color/deliver_line_white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60">
+
+        <ImageView
+            android:id="@+id/broadcast_iv"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:src="@mipmap/iv_default_music"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/broadcast_music_name"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:text="音乐"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/broadcast_play_iv"
+            app:layout_constraintStart_toEndOf="@+id/broadcast_iv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/broadcast_list_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_20"
+            android:src="@mipmap/list"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/broadcast_play_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/play"
+            android:layout_marginRight="@dimen/dp_20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/broadcast_list_iv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

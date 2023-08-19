@@ -60,6 +60,7 @@ public interface MusicDao extends BaseMapper<Music> {
             "           tb_music.`url`,\n" +
             "           tb_music.`file_high_url`,\n" +
             "           tb_music.`create_time`,\n" +
+            "           tb_music.`duration`," +
             "           tb_music.`pic_id`," +
             "           tb_music.`singer_name` AS singer_name  FROM tb_music LEFT JOIN tb_singer ON tb_singer.`id` = tb_music.`singer_id`" +
             "${ew.customSqlSegment}")

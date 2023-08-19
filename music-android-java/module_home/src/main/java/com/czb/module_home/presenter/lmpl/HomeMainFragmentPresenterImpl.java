@@ -10,6 +10,7 @@ import com.czb.module_home.callback.IHomeMainFragmentCallback;
 import com.czb.module_home.model.HomeApi;
 import com.czb.module_home.model.bean.BannerBean;
 import com.czb.module_home.model.bean.RecommendMusicBean;
+import com.czb.module_home.model.bean.MusicianBean;
 import com.czb.module_home.model.bean.TopMusicBean;
 import com.czb.module_home.presenter.IHomeMainFragmentPresenter;
 import com.czb.module_home.ui.fragment.HomeMainFragment;
@@ -38,6 +39,7 @@ public class HomeMainFragmentPresenterImpl implements IHomeMainFragmentPresenter
     private static final int RETURN_TOP_MUSIC = 2;  //请求错误
     private static final int RETURN_MUSIC_RECOMMEND = 3;
     private static final int RETURN_MUSIC_RECOMMEND_MORE = 4;
+    private static final int RETURN_SINGER_RECOMMEND = 5;
 
     private final Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
@@ -64,6 +66,9 @@ public class HomeMainFragmentPresenterImpl implements IHomeMainFragmentPresenter
                     break;
                 case RETURN_MUSIC_RECOMMEND_MORE:
                     mCallback.setRecommendMusicMore((RecommendMusicBean)msg.obj);
+                    break;
+                case RETURN_SINGER_RECOMMEND:
+                    mCallback.setRecommendSinger((MusicianBean)msg.obj);
                     break;
             }
         }
@@ -258,6 +263,49 @@ public class HomeMainFragmentPresenterImpl implements IHomeMainFragmentPresenter
 
                     }
                 });
+    }
+
+    @Override
+    public void getRecommendSingList() {
+        for (IHomeMainFragmentCallback callback : mCallbacks) {
+            if (callback.getKey().equals(HomeMainFragment.key)) {
+                mCallback = callback;
+                break;
+            }
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString("key",HomeMainFragment.key);
+        mApi.getSingerRecommend()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .compose(mCallback.TobindToLifecycle())
+                .subscribe(new Observer<Object>() {
+
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Object o) {
+                        Message message = new Message();
+                        message.what=((MusicianBean)o).getCode()== Constants.SUCCESS?RETURN_SINGER_RECOMMEND:ERROR;
+                        message.obj = o;
+                        message.setData(bundle);
+                        mHandler.sendMessage(message);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
     }
 
     private void requestFailed() {
