@@ -1,0 +1,6 @@
+<resources>
+    <style name="search_TabLayoutTextStyle">
+        <item name="android:textSize">@dimen/sp_12</item>
+    </style>
+
+</resources>

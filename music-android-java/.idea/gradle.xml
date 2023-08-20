@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/module_community" />
             <option value="$PROJECT_DIR$/module_home" />
             <option value="$PROJECT_DIR$/module_login" />
+            <option value="$PROJECT_DIR$/module_search" />
             <option value="$PROJECT_DIR$/module_ucenter" />
           </set>
         </option>

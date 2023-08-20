@@ -1,3 +1,4 @@
+include ':module_search'
 include ':module_base'
 include ':module_ucenter'
 include ':module_community'

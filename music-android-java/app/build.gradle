@@ -59,6 +59,7 @@ dependencies {
         implementation project(":module_ucenter")
         implementation project(":module_home")
         implementation project(":module_community")
+        implementation project(":module_search")
 
     }
     api project(":module_base")

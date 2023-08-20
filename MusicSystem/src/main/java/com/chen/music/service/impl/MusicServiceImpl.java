@@ -536,7 +536,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
 // 高亮域
         options.addField("name");
 // 前缀和后缀
-        options.setSimplePrefix("<span style=\"color:blue;\">");
+        options.setSimplePrefix("<span style=\"color:#0071E0;\">");
         options.setSimplePostfix("</span>");
 
 // 设置高亮设置
@@ -603,16 +603,16 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
 // 高亮域
         options.addField("lyric");
 // 前缀和后缀
-        options.setSimplePrefix("<span style=\"color:blue;\">");
+        options.setSimplePrefix("<span style=\"color:#0071E0;\">");
         options.setSimplePostfix("</span>");
-
+//结果长度
+        options.setFragsize(1024);
 // 设置高亮设置
         query.setHighlightOptions(options);
 
         // 分页
         query.setOffset(offest);
         query.setRows(size);
-
         //  执行查询 高亮
         HighlightPage<MusicInfo> highlightPage  = solrTemplate.queryForHighlightPage("lk_core",query, MusicInfo.class);
 // 获取高亮数据和普通数据
@@ -622,13 +622,22 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
             MusicInfo item = itemHighlightEntry.getEntity();
             // 获取高亮数据
             List<HighlightEntry.Highlight> highlights = itemHighlightEntry.getHighlights();
+
             if (highlights != null && highlights.size() > 0 && highlights.get(0).getSnipplets() != null
                     && highlights.get(0).getSnipplets().size() > 0) {
                 //可能存在多个高亮域
-                HighlightEntry.Highlight highlight = highlights.get(0);
+//                HighlightEntry.Highlight highlight = highlights.get(0);
                 // 获取分片数据
-                List<String> snipplets = highlight.getSnipplets();
-                String data = snipplets.get(0);
+//                List<String> snipplets = highlight.getSnipplets();
+//                String data = snipplets.get(0);
+                String data ="";
+                for (HighlightEntry.Highlight highlight : highlights) {
+                    // 获取分片数据
+                    List<String> snipplets = highlight.getSnipplets();
+                    for (String snipplet : snipplets) {
+                        data+=snipplet;
+                    }
+                }
                 //替换高亮数据
                 item.setLyric(data);
             }

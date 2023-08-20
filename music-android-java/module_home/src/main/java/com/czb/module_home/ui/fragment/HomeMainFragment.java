@@ -26,6 +26,7 @@ import com.czb.module_base.base.BaseFragment;
 import com.czb.module_base.bean.TitleMultiBean;
 import com.czb.module_base.common.Constants;
 import com.czb.module_base.common.service.home.wrap.HomeServiceWrap;
+import com.czb.module_base.common.service.search.SearchServiceWrap;
 import com.czb.module_base.utils.LogUtils;
 import com.czb.module_base.utils.StatusBarUtil;
 import com.czb.module_base.utils.ToastUtils;
@@ -90,6 +91,8 @@ public class HomeMainFragment extends BaseFragment implements IHomeMainFragmentC
     private RecyclerView mSingerRv;
     private SingerAdapter mSingerAdapter;
     private LinearLayout mLinearLayout;
+    private TextView mSearchTv;
+    private ImageView mSearchIv;
 
     @Override
     protected int getRootViewResId() {
@@ -100,6 +103,8 @@ public class HomeMainFragment extends BaseFragment implements IHomeMainFragmentC
     protected void initView(View rootView) {
         super.initView(rootView);
         setupState(State.SUCCESS);
+        mSearchIv = rootView.findViewById(R.id.iv_search);
+        mSearchTv = rootView.findViewById(R.id.homeSearchTv);
         mLinearLayout = rootView.findViewById(R.id.layout);
         mBroadcastMusicIv = rootView.findViewById(R.id.broadcast_iv);
         mPlayOrPauseIv = rootView.findViewById(R.id.broadcast_play_iv);
@@ -151,13 +156,13 @@ public class HomeMainFragment extends BaseFragment implements IHomeMainFragmentC
                 switch (playbackStage.getStage()){
                     case PlaybackStage.PLAYING:
                         LogUtils.d("test","正在播放");
-                        mPlayOrPauseIv.setImageResource(R.mipmap.play);
-                        mPlayOrPauseIv.setTag(Constants.MusicState.PAUSE);
+                        mPlayOrPauseIv.setImageResource(R.mipmap.pause);
+                        mPlayOrPauseIv.setTag(Constants.MusicState.PLAY);
                         break;
                     case PlaybackStage.PAUSE:
                         LogUtils.d("test","暂停播放");
-                        mPlayOrPauseIv.setImageResource(R.mipmap.pause);
-                        mPlayOrPauseIv.setTag(Constants.MusicState.PLAY);
+                        mPlayOrPauseIv.setImageResource(R.mipmap.play);
+                        mPlayOrPauseIv.setTag(Constants.MusicState.PAUSE);
                         break;
                     case PlaybackStage.ERROR:
 
@@ -166,24 +171,12 @@ public class HomeMainFragment extends BaseFragment implements IHomeMainFragmentC
                 }
             }
         });
-        mLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        mSingerAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                HomeServiceWrap.Singletion.INSTANCE.getHolder().launchMusician((MusicianBean.DataBean.ListBean)adapter.getItem(position));
-            }
-        });
-        mMusicBroadcastListIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showMusicListDialog();
-            }
-        });
+        mSearchIv.setOnClickListener(v -> SearchServiceWrap.Singletion.INSTANCE.getHolder().launchSearch());
+        mSearchTv.setOnClickListener(v -> SearchServiceWrap.Singletion.INSTANCE.getHolder().launchSearch());
+        mLinearLayout.setOnClickListener(v -> SearchServiceWrap.Singletion.INSTANCE.getHolder().launchSearch());
+        mSingerAdapter.setOnItemClickListener((adapter, view, position) -> HomeServiceWrap.Singletion.INSTANCE.getHolder().launchMusician((MusicianBean.DataBean.ListBean)adapter.getItem(position)));
+        mMusicBroadcastListIv.setOnClickListener(v -> showMusicListDialog());
         mControl.addPlayerEventListener(new OnPlayerEventListener() {
             @Override
             public void onPlaybackStageChange(@NotNull PlaybackStage playbackStage) {
@@ -533,6 +526,8 @@ public class HomeMainFragment extends BaseFragment implements IHomeMainFragmentC
     public void onResume() {
         super.onResume();
         if (mControl.isPlaying()) {
+            SongInfo nowPlayingSongInfo = mControl.getNowPlayingSongInfo();
+            mMusicBroadcastName.setText(nowPlayingSongInfo.getSongName());
             mPlayOrPauseIv.setImageResource(R.mipmap.pause);
             mPlayOrPauseIv.setTag(Constants.MusicState.PLAY);
         }else {

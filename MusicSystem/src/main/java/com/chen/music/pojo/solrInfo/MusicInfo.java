@@ -11,15 +11,14 @@ import java.util.Date;
 @SolrDocument(collection = "lk_core")
 public class MusicInfo implements Serializable {
 
-
+//这里的命名必须和solr中设置的一样
     private String id;
 
-    private String singerId;
-
+    private String singer_id;
 
     private String name;
 
-    private String picId;
+    private String pic_id;
 
     private String lyric;
 
@@ -29,30 +28,9 @@ public class MusicInfo implements Serializable {
 
     private String path;
 
+    private String file_high_url;
 
-    private String fileHighUrl;
-
-    private String singerName;
-
-    public String getSingerName() {
-        return singerName;
-    }
-
-    public void setSingerName(String singerName) {
-        this.singerName = singerName;
-    }
-
-    public String getFileHighPath() {
-        return fileHighPath;
-    }
-
-    public void setFileHighPath(String fileHighPath) {
-        this.fileHighPath = fileHighPath;
-    }
-
-    private String fileHighPath;
-
-    private String fileHighMd5;
+    private String singer_name;
 
     private String count;
 
@@ -67,22 +45,6 @@ public class MusicInfo implements Serializable {
         this.duration = duration;
     }
 
-    public String getFileHighUrl() {
-        return fileHighUrl;
-    }
-
-    public void setFileHighUrl(String fileHighUrl) {
-        this.fileHighUrl = fileHighUrl;
-    }
-
-    public String getFileHighMd5() {
-        return fileHighMd5;
-    }
-
-    public void setFileHighMd5(String fileHighMd5) {
-        this.fileHighMd5 = fileHighMd5;
-    }
-
     public String getCount() {
         return count;
     }
@@ -90,7 +52,6 @@ public class MusicInfo implements Serializable {
     public void setCount(String count) {
         this.count = count;
     }
-
 
     public String getId() {
         return id;
@@ -100,13 +61,6 @@ public class MusicInfo implements Serializable {
         this.id = id;
     }
 
-    public String getSingerId() {
-        return singerId;
-    }
-
-    public void setSingerId(String singerId) {
-        this.singerId = singerId;
-    }
 
     public String getName() {
         return name;
@@ -114,15 +68,6 @@ public class MusicInfo implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-
-    public String getPicId() {
-        return picId;
-    }
-
-    public void setPicId(String picId) {
-        this.picId = picId;
     }
 
     public String getLyric() {
@@ -158,21 +103,51 @@ public class MusicInfo implements Serializable {
         this.path = path;
     }
 
+    public String getPic_id() {
+        return pic_id;
+    }
+
+    public void setPic_id(String pic_id) {
+        this.pic_id = pic_id;
+    }
+
+    public String getSinger_id() {
+        return singer_id;
+    }
+
+    public void setSinger_id(String singer_id) {
+        this.singer_id = singer_id;
+    }
+
+    public String getFile_high_url() {
+        return file_high_url;
+    }
+
+    public void setFile_high_url(String file_high_url) {
+        this.file_high_url = file_high_url;
+    }
+
+    public String getSinger_name() {
+        return singer_name;
+    }
+
+    public void setSinger_name(String singer_name) {
+        this.singer_name = singer_name;
+    }
+
     @Override
     public String toString() {
         return "MusicInfo{" +
                 "id='" + id + '\'' +
-                ", singerId='" + singerId + '\'' +
+                ", singer_id='" + singer_id + '\'' +
                 ", name='" + name + '\'' +
-                ", picId='" + picId + '\'' +
+                ", pic_id='" + pic_id + '\'' +
                 ", lyric='" + lyric + '\'' +
                 ", url='" + url + '\'' +
                 ", state='" + state + '\'' +
                 ", path='" + path + '\'' +
-                ", fileHighUrl='" + fileHighUrl + '\'' +
-                ", singerName='" + singerName + '\'' +
-                ", fileHighPath='" + fileHighPath + '\'' +
-                ", fileHighMd5='" + fileHighMd5 + '\'' +
+                ", file_high_url='" + file_high_url + '\'' +
+                ", singer_name='" + singer_name + '\'' +
                 ", count='" + count + '\'' +
                 ", duration='" + duration + '\'' +
                 '}';
