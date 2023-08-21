@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.czb.module_base.RoutePath;
 import com.czb.module_base.base.BaseActivity;
 import com.czb.module_base.common.Constants;
+import com.czb.module_base.common.service.moyu.wrap.MoyuServiceWrap;
 import com.czb.module_base.utils.LogUtils;
 import com.czb.module_base.utils.StatusBarUtil;
 import com.czb.module_base.utils.ToastUtils;
@@ -63,6 +64,7 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
     private TextView mMusicianNameTv;
     private LyricViewX mLyricViewX;
     private IMusicPlayActivityPresenter mMusicPlayActivityPresenter;
+    private ImageView mCommentIv;
 
     @Override
     protected void initPresenter() {
@@ -183,6 +185,16 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
                 }
             }
         });
+
+        mCommentIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SongInfo nowPlayingSongInfo = mControl.getNowPlayingSongInfo();
+                if (nowPlayingSongInfo != null) {
+                    MoyuServiceWrap.Singletion.INSTANCE.getHolder().launchComment(nowPlayingSongInfo.getSongId());
+                }
+            }
+        });
     }
 
     @Override
@@ -209,6 +221,7 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
         mPlayOrPauseIv = this.findViewById(R.id.play_pause);
         mLastMusicIv = this.findViewById(R.id.last_music);
         mNextMusicIv = this.findViewById(R.id.next_music);
+        mCommentIv = this.findViewById(R.id.comment_iv);
         mDurationBar = this.findViewById(R.id.track_seek_bar);
         mCurrentPosition = this.findViewById(R.id.current_position);
         mTotalDuration = this.findViewById(R.id.track_duration);

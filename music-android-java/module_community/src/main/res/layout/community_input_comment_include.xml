@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hjq.shape.layout.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_reply_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal|bottom"
+    android:layout_marginTop="1px"
+    android:background="@drawable/recommend_top_line_ic"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    tools:showIn="@layout/community_activity_comment_list">
+
+    <com.hjq.shape.view.ShapeTextView
+        android:id="@+id/tv_fish_pond_submit_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:hint="写下神评..."
+        android:paddingHorizontal="@dimen/dp_16"
+        android:paddingVertical="@dimen/dp_12"
+        android:textColor="#A4A4A4"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shape_radius="999dp"
+        app:shape_solidColor="#f4f4f4" />
+
+</com.hjq.shape.layout.ShapeLinearLayout>

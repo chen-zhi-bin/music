@@ -24,14 +24,19 @@ public class CommentApi {
         return commentService.postSubComment(comment);
     }
 
-    @GetMapping("/music/{musicId}")
-    public ResponseResult listCommentsByMusic(@PathVariable("musicId")String musicId,@RequestParam("page")int page,@RequestParam("size")int size){
+    @GetMapping("/music/{musicId}/{page}/{size}")
+    public ResponseResult listCommentsByMusic(@PathVariable("musicId")String musicId,@PathVariable("page")int page,@PathVariable("size")int size){
         return commentService.listCommentsByMusicId(musicId,page,size);
     }
 
-    @GetMapping("/comment/{commentId}")
-    public ResponseResult listCommentsByComment(@PathVariable("commentId")String commentId,@RequestParam("page")int page,@RequestParam("size")int size){
+    @GetMapping("/comment/{commentId}/{page}/{size}")
+    public ResponseResult listCommentsByComment(@PathVariable("commentId")String commentId,@PathVariable("page")int page,@PathVariable("size")int size){
         return commentService.listCommentsByCommentId(commentId,page,size);
+    }
+
+    @GetMapping("/list/{page}/{size}")
+    public ResponseResult getCommentList(@PathVariable("page")int page,@PathVariable("size")int size){
+        return commentService.listComments(page,size);
     }
 
 }

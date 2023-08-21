@@ -25,8 +25,12 @@ public class RoutePath {
     }
 
     public static class Moyu{
+        public static final String MUSIC_ID="music_ID";
+        public static final String COMMENT = "comment";
         public static final String SERVICE_MOYU="/moyu/moyu_service";
 
+        public static final String DETAIL_MUSIC_COMMENT = "/moyu/music_comment";
+        public static final String DETAIL_MUSIC_SUB_COMMENT = "/moyu/sub_comment";
     }
 
     public static class Ucenter{

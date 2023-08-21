@@ -1,6 +1,7 @@
 package com.chen.music.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chen.music.mapper.MusicDao;
@@ -11,6 +12,7 @@ import com.chen.music.mapper.CommentDao;
 import com.chen.music.pojo.Music;
 import com.chen.music.pojo.SubCommentBean;
 import com.chen.music.pojo.User;
+import com.chen.music.pojo.vo.CommentAndMusicVo;
 import com.chen.music.response.ResponseResult;
 import com.chen.music.service.ICommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -151,39 +153,52 @@ public class CommentServiceImpl extends ServiceImpl<CommentDao, Comment> impleme
     public ResponseResult listComments(int page, int size) {
         page = CheckUtils.checkPage(page);
         size = CheckUtils.checkSize(size);
-        Page<Comment> commentPage = new Page<>(page - 1, size);
-        commentPage.addOrder(OrderItem.desc("create_time"));
-        QueryWrapper<Comment> commentQueryWrapper = new QueryWrapper<>();
-        //查非子评论
-        commentQueryWrapper.isNull("parent_id");
-        Page<Comment> resPage = commentDao.selectPage(commentPage, commentQueryWrapper);
-        List<Comment> comments = resPage.getRecords();
-
-        QueryWrapper<SubCommentBean> subCommentQueryWrapper = new QueryWrapper<>();
-
-        for (Comment comment : comments) {
-            subCommentQueryWrapper.clear();
-            subCommentQueryWrapper.eq("parent_id",comment.getId());
-            Long count = subCommentDao.selectCount(subCommentQueryWrapper);
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("count",count);
-            comment.setSubComments(map);
-        }
-
-        HashMap<String, Object> resMap = new HashMap<>();
+        Page<CommentAndMusicVo> commentAndMusicVoPage = new Page<>(page, size);
+        commentAndMusicVoPage.addOrder(OrderItem.desc("tb_comment.`create_time`"));
+        QueryWrapper<CommentAndMusicVo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.isNull("tb_comment.`parent_id`");
+        IPage<CommentAndMusicVo> resPage = commentDao.getCommentList(commentAndMusicVoPage, queryWrapper);
+        List<CommentAndMusicVo> records = resPage.getRecords();
+        HashMap<String, Object> res = new HashMap<>();
         long currentPage = resPage.getCurrent();
         long maxPage = resPage.getPages();
-        resMap.put("list", comments);
-        resMap.put("currentPage",currentPage);
-        resMap.put("maxPage",maxPage);
-        return ResponseResult.SUCCESS("获取父评论成功").setData(resMap);
+        res.put("list", records);
+        res.put("currentPage",currentPage);
+        res.put("maxPage",maxPage);
+        return ResponseResult.SUCCESS("获取评论成功").setData(res);
+//        Page<Comment> commentPage = new Page<>(page - 1, size);
+//        commentPage.addOrder(OrderItem.desc("create_time"));
+//        QueryWrapper<Comment> commentQueryWrapper = new QueryWrapper<>();
+//        //查非子评论
+//        commentQueryWrapper.isNull("parent_id");
+//        Page<Comment> resPage = commentDao.selectPage(commentPage, commentQueryWrapper);
+//        List<Comment> comments = resPage.getRecords();
+//
+//        QueryWrapper<SubCommentBean> subCommentQueryWrapper = new QueryWrapper<>();
+//
+//        for (Comment comment : comments) {
+//            subCommentQueryWrapper.clear();
+//            subCommentQueryWrapper.eq("parent_id",comment.getId());
+//            Long count = subCommentDao.selectCount(subCommentQueryWrapper);
+//            HashMap<String, Object> map = new HashMap<>();
+//            map.put("count",count);
+//            comment.setSubComments(map);
+//        }
+//
+//        HashMap<String, Object> resMap = new HashMap<>();
+//        long currentPage = resPage.getCurrent();
+//        long maxPage = resPage.getPages();
+//        resMap.put("list", comments);
+//        resMap.put("currentPage",currentPage);
+//        resMap.put("maxPage",maxPage);
+//        return ResponseResult.SUCCESS("获取父评论成功").setData(resMap);
     }
 
     @Override
     public ResponseResult listCommentsByMusicId(String musicId, int page, int size) {
         page = CheckUtils.checkPage(page);
         size = CheckUtils.checkSize(size);
-        Page<Comment> commentPage = new Page<>(page - 1, size);
+        Page<Comment> commentPage = new Page<>(page , size);
         commentPage.addOrder(OrderItem.desc("create_time"));
         QueryWrapper<Comment> commentQueryWrapper = new QueryWrapper<>();
 
@@ -220,7 +235,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentDao, Comment> impleme
     public ResponseResult listCommentsByCommentId(String commentId, int page, int size) {
         page = CheckUtils.checkPage(page);
         size = CheckUtils.checkSize(size);
-        Page<SubCommentBean> subCommentBeanPage = new Page<>(page-1,size);
+        Page<SubCommentBean> subCommentBeanPage = new Page<>(page,size);
         subCommentBeanPage.addOrder(OrderItem.desc("create_time"));
         QueryWrapper<SubCommentBean> subCommentBeanQueryWrapper = new QueryWrapper<>();
         subCommentBeanQueryWrapper.eq("parent_id",commentId);

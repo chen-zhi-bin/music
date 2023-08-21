@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_selector_ic"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_fish_pond_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="评论用户的头像"
+        android:src="@mipmap/ic_default_avatar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_top_container"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_fish_pond_avatar"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/cb_fish_pond_nick_name"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:clickable="false"
+            android:ellipsize="end"
+            android:enabled="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_fish_pond_comment"
+        android:layout_width="44dp"
+        android:scaleType="center"
+        android:layout_height="44dp"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/ic_reply"
+        app:layout_constraintBottom_toBottomOf="@id/ll_top_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ll_top_container" />
+
+    <TextView
+        android:id="@+id/tv_fish_pond_desc"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_top_container"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="50dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/default_font_color"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_fish_pond_avatar"
+        app:layout_constraintTop_toBottomOf="@id/ll_top_container" />
+
+    <TextView
+        android:id="@+id/tv_reply_msg"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_fish_pond_desc"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:lineSpacingMultiplier="1.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_fish_pond_avatar"
+        app:layout_constraintTop_toBottomOf="@id/tv_fish_pond_desc" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/blue_light"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
