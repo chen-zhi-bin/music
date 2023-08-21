@@ -54,6 +54,12 @@ public class HomeServiceWrap {
                 .navigation();
     }
 
+    public void launchMusic() {
+        ARouter.getInstance()
+                .build(RoutePath.Home.DETAIL_MUSIC)
+                .navigation();
+    }
+
     public static final class Singletion{
        private static final HomeServiceWrap holder;
        public static final HomeServiceWrap.Singletion INSTANCE;

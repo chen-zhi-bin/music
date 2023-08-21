@@ -1,6 +1,7 @@
 package com.czb.module_home.model;
 
 import com.czb.module_home.model.bean.BannerBean;
+import com.czb.module_home.model.bean.MusicAndMusicianInfoBean;
 import com.czb.module_home.model.bean.MusicianMusicBean;
 import com.czb.module_home.model.bean.RecommendMusicBean;
 import com.czb.module_home.model.bean.MusicianBean;
@@ -30,4 +31,7 @@ public interface HomeApi {
 
     @GET("/music/list/{musicianId}/{page}/30")
     Observable<MusicianMusicBean> getMusicByMusicianId(@Path("musicianId")String musicianId,@Path("page")int page);
+
+    @GET("/music/info/{musicId}")
+    Observable<MusicAndMusicianInfoBean> getMusicInfo(@Path("musicId")String musicId);
 }

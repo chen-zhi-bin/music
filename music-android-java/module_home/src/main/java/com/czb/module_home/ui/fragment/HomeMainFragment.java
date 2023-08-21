@@ -149,6 +149,12 @@ public class HomeMainFragment extends BaseFragment implements IHomeMainFragmentC
     @Override
     protected void initListener() {
         super.initListener();
+        mMusicBroadcastName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeServiceWrap.Singletion.INSTANCE.getHolder().launchMusic();
+            }
+        });
         MutableLiveData<PlaybackStage> playbackStageMutableLiveData = mControl.playbackState();
         playbackStageMutableLiveData.observe(this, new Observer<PlaybackStage>() {
             @Override
