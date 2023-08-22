@@ -49,6 +49,7 @@ public class LoginPresenterImpl implements ILoginPresenter {
                     String[] split = s.split(";");
                     String[] split1 = split[0].split("=");
                     mSharedPreferencesUtils.putString(SharedPreferencesUtils.USER_TOKEN_COOKIE,split1[1]);
+                    mSharedPreferencesUtils.putString(SharedPreferencesUtils.USER_ID,body.getData().getId());
                     mLoginCallback.onLoginSuccess();
                 }
             }

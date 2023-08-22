@@ -65,5 +65,29 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies.arouterCompiler
     implementation 'com.alibaba:arouter-api:1.5.2'
 
+
+    //retrofit2+rxjava+rxlifecycle
+    implementation rootProject.ext.dependencies.retrofit2
+    implementation rootProject.ext.dependencies.converter_gson
+    implementation rootProject.ext.dependencies.retrofit2_converter_scalars
+    implementation rootProject.ext.dependencies.retrofit2_rxjava3
+    implementation rootProject.ext.dependencies.rxjava
+    implementation rootProject.ext.dependencies.rxjava_android
+    implementation rootProject.ext.dependencies.rxlifecycle
+    implementation rootProject.ext.dependencies.rxlifecycle_compontent
+    implementation rootProject.ext.dependencies.rxlifecycle_android
+
+    implementation rootProject.ext.dependencies.refresh_layout
+    implementation rootProject.ext.dependencies.refresh_header
+    implementation rootProject.ext.dependencies.refresh_footer
+    implementation rootProject.ext.dependencies.basequick_adapter
+
+    implementation rootProject.ext.dependencies.glide
+    annotationProcessor rootProject.ext.dependencies.glide_compiler
+
+    implementation 'com.github.EspoirX:StarrySky:v2.6.3'
+    implementation 'com.github.getActivity:TitleBar:10.5'
+    implementation rootProject.ext.dependencies.roundedimageview
+    implementation rootProject.ext.dependencies.super_text_view
     api project(':module_base')
 }

@@ -371,7 +371,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
             return ResponseResult.ACCOUNT_DENIED();
         }
         createToken(response, userFromDb);
-        return ResponseResult.SUCCESS("登录成功");
+        HashMap<String, Object> res = new HashMap<>();
+        res.put("id",userFromDb.getId());
+        return ResponseResult.SUCCESS("登录成功").setData(res);
     }
 
     /**

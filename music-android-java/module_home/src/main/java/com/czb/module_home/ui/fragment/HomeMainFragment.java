@@ -24,10 +24,13 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.czb.module_base.base.BaseApplication;
 import com.czb.module_base.base.BaseFragment;
 import com.czb.module_base.bean.TitleMultiBean;
+import com.czb.module_base.bean.db.Music;
+import com.czb.module_base.bean.db.dao.MusicDao;
 import com.czb.module_base.common.Constants;
 import com.czb.module_base.common.service.home.wrap.HomeServiceWrap;
 import com.czb.module_base.common.service.search.SearchServiceWrap;
 import com.czb.module_base.utils.LogUtils;
+import com.czb.module_base.utils.RoomUtils;
 import com.czb.module_base.utils.StatusBarUtil;
 import com.czb.module_base.utils.ToastUtils;
 import com.czb.module_base.view.MusicBottomSheetDialog;
@@ -93,6 +96,7 @@ public class HomeMainFragment extends BaseFragment implements IHomeMainFragmentC
     private LinearLayout mLinearLayout;
     private TextView mSearchTv;
     private ImageView mSearchIv;
+    private MusicDao mMusicDao;
 
     @Override
     protected int getRootViewResId() {
@@ -164,6 +168,24 @@ public class HomeMainFragment extends BaseFragment implements IHomeMainFragmentC
                         LogUtils.d("test","正在播放");
                         mPlayOrPauseIv.setImageResource(R.mipmap.pause);
                         mPlayOrPauseIv.setTag(Constants.MusicState.PLAY);
+                        SongInfo nowPlayingSongInfo = mControl.getNowPlayingSongInfo();
+                        Music music = new Music();
+                        music.setId(nowPlayingSongInfo.getSongId());
+                        music.setArtist(nowPlayingSongInfo.getArtist());
+                        music.setSongCover(nowPlayingSongInfo.getSongCover());
+                        music.setDuration(nowPlayingSongInfo.getDuration());
+                        music.setSongName(nowPlayingSongInfo.getSongName());
+                        music.setSongUrl(nowPlayingSongInfo.getSongUrl());
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                super.run();
+                                Music musicById = mMusicDao.getMusicById(music.getId());
+                                if (musicById==null) {
+                                    mMusicDao.insertMusic(music);
+                                }
+                            }
+                        }.start();
                         break;
                     case PlaybackStage.PAUSE:
                         LogUtils.d("test","暂停播放");
@@ -421,6 +443,7 @@ public class HomeMainFragment extends BaseFragment implements IHomeMainFragmentC
         mHomeMainFragmentPresenter = PresenterManager.getInstance().getHomeMainFragmentPresenter();
         mHomeMainFragmentPresenter.registerViewCallback(this);
         initData();
+        mMusicDao = RoomUtils.getInstance(BaseApplication.getAppContext()).getMusicDao();
     }
 
     private void initData() {

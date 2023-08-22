@@ -36,7 +36,17 @@ public class UcenterServiceWrap{
         return mService.getFragment();
     }
 
+    public void launchSetting() {
+        ARouter.getInstance()
+                .build(RoutePath.Ucenter.PAGE_USER_SET)
+                .navigation();
+    }
 
+    public void launchHistory() {
+        ARouter.getInstance()
+                .build(RoutePath.Ucenter.PAGE_USER_HISTORY)
+                .navigation();
+    }
 
 
     public static final class Singletion{

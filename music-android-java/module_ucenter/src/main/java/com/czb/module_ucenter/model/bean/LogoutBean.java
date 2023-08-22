@@ -1,18 +1,15 @@
-package com.czb.module_login.model.bean;
+package com.czb.module_ucenter.model.bean;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-
-public class LoginBean implements Serializable {
-
-
+public class LogoutBean implements Serializable {
     /**
      * success : true
      * code : 20000
-     * message : 登录成功
-     * data : {"id":"1136809343182700544"}
+     * message : 退出登录成功
+     * data : {}
      */
 
     @SerializedName("success")
@@ -58,7 +55,7 @@ public class LoginBean implements Serializable {
 
     @Override
     public String toString() {
-        return "LoginBean{" +
+        return "LogoutBean{" +
                 "success=" + success +
                 ", code=" + code +
                 ", message='" + message + '\'' +
@@ -67,26 +64,5 @@ public class LoginBean implements Serializable {
     }
 
     public static class DataBean implements Serializable {
-        /**
-         * id : 1136809343182700544
-         */
-
-        @SerializedName("id")
-        private String id;
-
-        @Override
-        public String toString() {
-            return "DataBean{" +
-                    "id='" + id + '\'' +
-                    '}';
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
     }
 }
