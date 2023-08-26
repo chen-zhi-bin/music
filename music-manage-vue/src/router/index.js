@@ -40,6 +40,7 @@ export const routes = [
           path: '/content',
           icon:'Document',
           requireLogin:true,
+          roleIds:[1,3,4],
           name:'内容',
           hidden:false,
           component: rightView,
@@ -79,6 +80,7 @@ export const routes = [
           name:'用户',
           requireLogin:true,
           icon:'User',
+          roleIds:[1,2],
           hidden:false,
           component: rightView,
           children:[
@@ -116,6 +118,7 @@ export const routes = [
           path: '/operation',
           icon:'Guide',
           requireLogin:true,
+          roleIds:[1,3,4],
           name:'运营',
           hidden:false,
           component: rightView,
@@ -135,6 +138,7 @@ export const routes = [
           icon:'Setting',
           requireLogin:true,
           hidden:false,
+          roleIds:[1,2,3,4],
           component: rightView,
           children:[
             {
