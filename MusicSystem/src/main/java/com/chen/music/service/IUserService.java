@@ -50,4 +50,6 @@ public interface IUserService extends IService<User> {
     ResponseResult registerAdmin(User user, String roleId, String captchaCode, String captchaKey, HttpServletRequest request);
 
     ResponseResult deleteAdminById(String userId);
+
+    ResponseResult parseToken();
 }

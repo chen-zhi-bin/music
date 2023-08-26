@@ -252,4 +252,9 @@ public class UserApi {
     public ResponseResult deleteAdmin(@PathVariable("userId")String userId){
         return userService.deleteAdminById(userId);
     }
+
+    @GetMapping("/check-token")
+    public ResponseResult parseToken(){
+        return userService.parseToken();
+    }
 }

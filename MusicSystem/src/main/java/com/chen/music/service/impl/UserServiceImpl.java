@@ -139,9 +139,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
         if (TextUtils.isEmpty(captchaKey) || captchaKey.length() < 13) {
             return;
         }
-        long key = 0l;
+        String key = "";
         try {
-            key = Long.parseLong(captchaKey);
+            key = captchaKey;
             //处理
 
         } catch (Exception e) {
@@ -153,13 +153,15 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
         response.setDateHeader("Expires", 0);
         int captchaType = random.nextInt(3);
         Captcha targetCapcha = null;
+        int width = 120;
+        int height = 40;
         if (captchaType == 0) {
             // 三个参数分别为宽、高、位数
-            targetCapcha = new SpecCaptcha(200, 60, 5);
+            targetCapcha = new SpecCaptcha(width, height, 5);
 
         } else if ((captchaType == 1)) {
             //gif
-            targetCapcha = new GifCaptcha(200, 60);
+            targetCapcha = new GifCaptcha(width, height);
         } else {
             //算数
 //            targetCapcha = new ArithmeticCaptcha(200, 60);
@@ -731,6 +733,18 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
             return ResponseResult.SUCCESS("删除成功");
         }
         return ResponseResult.FAILED("用户不存在");
+    }
+
+    @Override
+    public ResponseResult parseToken() {
+        User user = checkUser();
+        if (user==null) {
+            return ResponseResult.FAILED("用户未登录");
+        }else {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("user",user);
+            return ResponseResult.SUCCESS("获取成功").setData(map);
+        }
     }
 
     private User parseByToken(String tokenKey) {
