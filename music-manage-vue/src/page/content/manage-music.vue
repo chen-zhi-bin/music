@@ -30,7 +30,11 @@
                             :src="baseUrlImage + '/' + scope.row.picId" />
                     </template>
                 </el-table-column>
-                <el-table-column prop="musicName" label="歌名" width="150" />
+                <el-table-column prop="musicName" label="歌名" width="150" >
+                    <template v-slot="scope">
+                        <div v-html="scope.row.musicName"></div>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="singerName" label="歌手" width="150" />
                 <el-table-column prop="state" label="状态" width="120">
                     <template v-slot="scope">
