@@ -33,6 +33,12 @@ public class SingerAdminApi {
     }
 
     @PreAuthorize("@permission.superAdmin()||@permission.musicAdmin()")
+    @PutMapping("/info/{singer_id}")
+    public ResponseResult updateMusician(@PathVariable("singer_id") String id,@RequestBody Singer singer) {
+        return iSingerService.updateMusicianInfo(id,singer);
+    }
+
+    @PreAuthorize("@permission.superAdmin()||@permission.musicAdmin()")
     @GetMapping("/deletedlist/{page}/{size}")
     public ResponseResult getMusicianDeletedList(@PathVariable("page") int page,
                                                  @PathVariable("size") int size) {

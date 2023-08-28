@@ -25,4 +25,6 @@ public interface ISingerService extends IService<Singer> {
     ResponseResult getMusicianList(int page, int size);
 
     ResponseResult musicianList(int page, int size);
+
+    ResponseResult updateMusicianInfo(String id, Singer singer);
 }

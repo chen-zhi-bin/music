@@ -175,11 +175,19 @@ public class ImagesServiceImpl extends ServiceImpl<ImageDao, Image> implements I
 
     @Override
     public ResponseResult deleteImage(String imageId) {
-        int result = imageDao.deleteByImageId(imageId);
-        if (result>0){
-            return ResponseResult.SUCCESS("删除成功");
+        Image image = imageDao.selectById(imageId);
+        if (image == null) {
+            return ResponseResult.FAILED("删除失败，图片不存在");
         }
-        return ResponseResult.FAILED("删除失败，图片不存在");
+        image.setState("0");
+        image.setUpdateTime(new Date());
+        int i = imageDao.updateById(image);
+        return i>0?ResponseResult.SUCCESS("删除成功"):ResponseResult.FAILED("删除失败，图片不存在");
+//        int result = imageDao.deleteByImageId(imageId);
+//        if (result>0){
+//            return ResponseResult.SUCCESS("删除成功");
+//        }
+//        return ResponseResult.FAILED("删除失败，图片不存在");
     }
 
     @Override
@@ -192,10 +200,10 @@ public class ImagesServiceImpl extends ServiceImpl<ImageDao, Image> implements I
 //        if (sobUser == null) {
 //            return ResponseResult.ACCOUNT_NOT_LOGIN();
 //        }
-        Page<Image> imagePage = new Page<>(page - 1, size);
+        Page<Image> imagePage = new Page<>(page, size);
         imagePage.addOrder(OrderItem.desc("create_time"));
         QueryWrapper<Image> imageQueryWrapper = new QueryWrapper<>();
-        imageQueryWrapper.ne("state","0");
+//        imageQueryWrapper.ne("state","0");
         Page<Image> selectPage = imageDao.selectPage(imagePage, imageQueryWrapper);
         List<Image> imageList = selectPage.getRecords();
         HashMap<String, Object> res = new HashMap<>();

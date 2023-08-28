@@ -83,9 +83,11 @@ public class SingerServiceImpl extends ServiceImpl<SingerDao, Singer> implements
         }
         singer.setState("0");
         singer.setUserId(user.getId());
-        QueryWrapper<Singer> singerQueryWrapper = new QueryWrapper<>();
-        singerQueryWrapper.eq("id",singer);
-        int res = singerDao.update(singer, singerQueryWrapper);
+        singer.setUpdateTime(new Date());
+//        QueryWrapper<Singer> singerQueryWrapper = new QueryWrapper<>();
+//        singerQueryWrapper.eq("id",singer);
+//        int res = singerDao.update(singer, singerQueryWrapper);
+        int res  = singerDao.updateById(singer);
         return res>0?ResponseResult.SUCCESS("删除成功"):ResponseResult.FAILED("删除失败");
     }
 
@@ -102,9 +104,10 @@ public class SingerServiceImpl extends ServiceImpl<SingerDao, Singer> implements
         singer.setUpdateTime(new Date());
         singer.setUserId(user.getId());
         singer.setState(Constants.MUSICIAN.STATE_PUBLISH);
-        QueryWrapper<Singer> singerQueryWrapper = new QueryWrapper<>();
-        singerQueryWrapper.eq("id",singer);
-        int res = singerDao.update(singer, singerQueryWrapper);
+//        QueryWrapper<Singer> singerQueryWrapper = new QueryWrapper<>();
+//        singerQueryWrapper.eq("id",singer);
+//        int res = singerDao.update(singer, singerQueryWrapper);
+        int res = singerDao.updateById(singer);
         return res>0?ResponseResult.SUCCESS("恢复成功"):ResponseResult.FAILED("恢复失败");
     }
 
@@ -156,5 +159,36 @@ public class SingerServiceImpl extends ServiceImpl<SingerDao, Singer> implements
         res.put("maxPage",musicList.getPages());
         res.put("currentPage",page);
         return ResponseResult.SUCCESS("获取成功").setData(res);
+    }
+
+    @Override
+    public ResponseResult updateMusicianInfo(String id, Singer singer) {
+        Singer singerFromDB = singerDao.selectById(id);
+        if (singerFromDB == null) {
+            return ResponseResult.FAILED("歌手不存在");
+        }
+        if (singer.getName() != null) {
+            singerFromDB.setName(singer.getName());
+        }
+        if (singer.getPicId() != null) {
+            singerFromDB.setPicId(singer.getPicId());
+        }
+        if (singer.getSex() != null) {
+            singerFromDB.setSex(singer.getSex());
+        }
+        if (singer.getState() != null) {
+            singerFromDB.setState(singer.getState());
+        }
+        if (singer.getIntroduction() != null) {
+            singerFromDB.setIntroduction(singer.getIntroduction());
+        }
+        User user = userService.checkUser();
+        if (user == null) {
+            return ResponseResult.FAILED("未登录");
+        }
+        singerFromDB.setUpdateTime(new Date());
+        singerFromDB.setUserId(user.getId());
+        int i = singerDao.updateById(singerFromDB);
+        return i>0?ResponseResult.SUCCESS("更新成功"):ResponseResult.FAILED("更新失败");
     }
 }

@@ -50,3 +50,43 @@ export const updateMusicInfo=(musicId,data)=>{
 export const doSearchMusicByName=(page,key)=>{
     return http.requestPost('admin/admin/music/list/name/'+page+'/10'+'?name='+key);
 }
+//获取评论列表
+export const getCommentList=(page)=>{
+    return http.requestGet('admin/admin/comment/list?page='+page+'&size=30')
+}
+//删除评论
+export const deleteComment=(commentId)=>{
+    return http.requestDelete('admin/admin/comment/'+commentId);
+}
+//获取图片列表
+export const listImages=(page)=>{
+    return http.requestPost('admin/admin/image/list/'+page+'/10');
+}
+//删除图片
+export const deleteImage=(imgId)=>{
+    return http.requestDelete('admin/admin/image/'+imgId);
+}
+//恢复图片
+export const reImage=(imgId)=>{
+    return http.requestPut('admin/admin/image/recover/'+imgId);
+}
+//获取歌手列表
+export const listMusician=(page)=>{
+    return http.requestGet('admin/admin/singer/'+page+'/10');
+}
+//添加歌手信息
+// export const addMusicianInfo=(data)=>{
+//     return http.requestPost('admin/admin/singer',data);
+// }
+//修改歌手信息 
+export const updateMusicianInfo=(musicianId,data)=>{
+    return http.requestPut('admin/admin/singer/info/'+musicianId,data);
+}
+//删除音乐人
+export const deleteMusician=(musicianId)=>{
+    return http.requestDelete('admin/admin/singer/'+musicianId);
+}
+//恢复音乐人
+export const reMusician=(musicianId)=>{
+    return http.requestPut('admin/admin/singer/recover/'+musicianId);
+}
