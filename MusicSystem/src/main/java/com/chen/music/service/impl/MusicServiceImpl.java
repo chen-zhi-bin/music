@@ -228,7 +228,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
     @Override
     public ResponseResult deleteMusic(String id) {
         User user = userService.checkUser();
-        if (user == null) {
+        if (user == null||(!user.getRoleId().equals("1")&&!user.equals("4"))) {
             return ResponseResult.ACCOUNT_NOT_LOGIN();
         }
         Music music = musicDao.selectById(id);
@@ -457,6 +457,14 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         if (music.getPicId() != null) {
             music1.setPicId(music.getPicId());
         }
+        if (music.getState() != null) {
+            music1.setState(music.getState());
+        }
+        if (music.getSingerName() != null) {
+            music1.setSingerName(music.getSingerName());
+        }
+        music1.setUserId(userId);
+        music1.setUpdateTime(new Date());
         musicDao.updateById(music1);
         return ResponseResult.SUCCESS("更新成功");
     }
@@ -510,7 +518,9 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         Page<MusicUpdateInfoToUserVo> musicAndSingerVoPage = new Page<>(page, size);
         musicAndSingerVoPage.addOrder(OrderItem.desc("create_time"));
         QueryWrapper<MusicUpdateInfoToUserVo> musicAndSingerVoQueryWrapper = new QueryWrapper<>();
-        musicAndSingerVoQueryWrapper.ne("tb_music.`state`","0");
+        if (!state.equals("all")){
+            musicAndSingerVoQueryWrapper.eq("tb_music.`state`",state);
+        }
         IPage<MusicUpdateInfoToUserVo> musicList = musicDao.getMusicListByPage(musicAndSingerVoPage, musicAndSingerVoQueryWrapper);
         log.info(musicList.toString());
 //        log.info(offset+"");
@@ -652,8 +662,24 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
 
     @Override
     public ResponseResult updateMusicTop(String musicId) {
-        int res = musicDao.updateMusicAddTop(musicId);
-        return res>0?ResponseResult.SUCCESS("音乐顶置成功"):ResponseResult.FAILED("音乐顶置失败");
+//        int res = musicDao.updateMusicAddTop(musicId);
+        User user = userService.checkUser();
+        if (user == null||(!user.getRoleId().equals("1")&&!user.equals("4"))) {
+            return ResponseResult.FAILED("账号未登录或账号权限不足");
+        }
+        Music music = musicDao.selectById(musicId);
+        if (music == null) {
+           return ResponseResult.FAILED("音乐不存在");
+        }else {
+            music.setState(3+"");
+            music.setUserId(user.getId());
+            music.setUpdateTime(new Date());
+            QueryWrapper<Music> musicQueryWrapper = new QueryWrapper<>();
+            musicQueryWrapper.eq("id",musicId);
+            int update = musicDao.update(music, musicQueryWrapper);
+            return update>0?ResponseResult.SUCCESS("音乐顶置成功"):ResponseResult.FAILED("音乐顶置失败");
+        }
+
     }
 
     @Override

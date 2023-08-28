@@ -10,6 +10,14 @@ module.exports = defineConfig({
         pathRewrite: {
             '^/user': '' //不改变
         }
+      },
+      '/admin':{
+        target:'http://localhost:8090',
+        changOrigin:true,
+        ws: true,
+        pathRewrite: {
+            '^/admin': '' //不改变
+        }
       }
     }
   }

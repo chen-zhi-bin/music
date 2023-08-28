@@ -44,6 +44,9 @@ public interface MusicDao extends BaseMapper<Music> {
             "           tb_music.`create_time`,\n" +
             "           tb_music.`update_time`,\n" +
             "           tb_music.`singer_name`,\n" +
+            "           tb_music.`pic_id`,\n" +
+            "           tb_music.`lyric`,\n" +
+            "           tb_music.`singer_id` AS musicianId,\n" +
             "           tb_user.`id` AS user_id,\n" +
             "           tb_user.`user_name`,\n" +
             "           tb_music.`state`,\n" +

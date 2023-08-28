@@ -12,7 +12,19 @@ public class MusicUpdateInfoToUserVo {
     private String userId;
     private String userName;
     private String musicName;
+    private String picId;
+    private String lyric;
     private String state;
+    private String musicianId;
+
+
+    public String getMusicianId() {
+        return musicianId;
+    }
+
+    public void setMusicianId(String musicianId) {
+        this.musicianId = musicianId;
+    }
 
     @Override
     public String toString() {
@@ -26,7 +38,27 @@ public class MusicUpdateInfoToUserVo {
                 ", userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", musicName='" + musicName + '\'' +
+                ", picId='" + picId + '\'' +
+                ", lyric='" + lyric + '\'' +
+                ", state='" + state + '\'' +
+                ", musicianId='" + musicianId + '\'' +
                 '}';
+    }
+
+    public String getLyric() {
+        return lyric;
+    }
+
+    public void setLyric(String lyric) {
+        this.lyric = lyric;
+    }
+
+    public String getPicId() {
+        return picId;
+    }
+
+    public void setPicId(String picId) {
+        this.picId = picId;
     }
 
     public String getUrl() {

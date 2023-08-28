@@ -4,7 +4,7 @@ const login =() =>import ("@/page/login/user-login");
 const musicManage =() =>import ("@/page/content/manage-music");
 const imageManage =() =>import ("@/page/content/manage-image");
 const commentManage =() =>import ("@/page/content/manage-comment");
-const postMusic =() =>import ("@/page/content/post-music");
+// const postMusic =() =>import ("@/page/content/post-music");
 //首页
 const index =() =>import ("@/page/dashboard/dashboard-index");
 //运营
@@ -45,13 +45,13 @@ export const routes = [
           hidden:false,
           component: rightView,
           children:[
-            {
-              path:'post-music',
-              icon:'Files',
-              name:'发表音乐',
-              hidden:false,
-              component: postMusic
-            },
+            // {
+            //   path:'post-music',
+            //   icon:'Files',
+            //   name:'发表音乐',
+            //   hidden:false,
+            //   component: postMusic
+            // },
             {
               path:'manage-music',
               icon:'MessageBox',

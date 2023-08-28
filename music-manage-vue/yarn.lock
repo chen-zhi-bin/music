@@ -2980,6 +2980,14 @@
   "resolved" "https://registry.npmmirror.com/easy-stack/-/easy-stack-1.0.1.tgz"
   "version" "1.0.1"
 
+"echarts@^5.4.3":
+  "integrity" "sha512-mYKxLxhzy6zyTi/FaEbJMOZU1ULGEQHaeIeuMR5L+JnJTpz+YR03mnnpBhbR4+UYJAgiXgpyTVLffPAjOTLkZA=="
+  "resolved" "https://registry.npmmirror.com/echarts/-/echarts-5.4.3.tgz"
+  "version" "5.4.3"
+  dependencies:
+    "tslib" "2.3.0"
+    "zrender" "5.4.4"
+
 "ee-first@1.1.1":
   "integrity" "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow=="
   "resolved" "https://registry.npmmirror.com/ee-first/-/ee-first-1.1.1.tgz"
@@ -5977,6 +5985,11 @@
   "resolved" "https://registry.npmmirror.com/tslib/-/tslib-2.6.2.tgz"
   "version" "2.6.2"
 
+"tslib@2.3.0":
+  "integrity" "sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg=="
+  "resolved" "https://registry.npmmirror.com/tslib/-/tslib-2.3.0.tgz"
+  "version" "2.3.0"
+
 "type-check@^0.4.0", "type-check@~0.4.0":
   "integrity" "sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew=="
   "resolved" "https://registry.npmmirror.com/type-check/-/type-check-0.4.0.tgz"
@@ -6437,3 +6450,10 @@
     "is-ci" "^1.0.10"
     "normalize-path" "^1.0.0"
     "strip-indent" "^2.0.0"
+
+"zrender@5.4.4":
+  "integrity" "sha512-0VxCNJ7AGOMCWeHVyTrGzUgrK4asT4ml9PEkeGirAkKNYXYzoPJCLvmyfdoOXcjTHPs10OZVMfD1Rwg16AZyYw=="
+  "resolved" "https://registry.npmmirror.com/zrender/-/zrender-5.4.4.tgz"
+  "version" "5.4.4"
+  dependencies:
+    "tslib" "2.3.0"
