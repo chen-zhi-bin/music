@@ -29,7 +29,7 @@ public interface Constants {
     }
 
     interface User {
-        String DEFAULT_AVATAR = "default_avatar.png";
+        String DEFAULT_AVATAR = "1693294564064_1146106000185491456.png";
         String DEFAULT_STATE = "1";
         String COOKIE_TOKEN_KEY = "cookie_token";
         String ROLE_NORMAL = "10";

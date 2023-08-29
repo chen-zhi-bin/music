@@ -170,6 +170,12 @@ public class UserApi {
         return userService.deleteUserById(userId);
     }
 
+    @PreAuthorize("@permission.superAdmin()||@permission.userAdmin()")//是管理员才能使用
+    @PostMapping("/re/{userId}")
+    public ResponseResult reUser(@PathVariable("userId")String userId){
+        return userService.reUserById(userId);
+    }
+
     /**
      * 检查该email是否注册
      * @param email 邮箱地址

@@ -38,7 +38,7 @@
                         </span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="updateTime" label="上传时间" width="180">
+                <el-table-column prop="updateTime" label="更新时间" width="180">
                     <template v-slot="scope">
                         <span v-text="formatDate(scope.row.updateTime)">
                         </span>

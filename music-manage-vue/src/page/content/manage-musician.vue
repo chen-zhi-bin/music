@@ -96,7 +96,7 @@
                     </span>
                 </template>
             </el-dialog>
-            <!-- 音乐编辑/添加 -->
+            <!-- 音乐人编辑/添加 -->
             <el-dialog v-model="editDialogShow" :title="editTitle" width="30%" :close-on-click-modal="false"
                 :close-on-press-escape="false">
                 <div class="musician-edit-box">
@@ -188,6 +188,10 @@ export default {
             this.editTitle = '添加音乐人';
             this.editorCommitText = '添 加'
             this.editDialogShow = true;
+        },
+        handleCurrentChange(page) {
+            this.currentPage = page;
+            this.getMusicianList();
         },
         postMusicican(){
             if (this.musician.id==='') {

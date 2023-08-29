@@ -90,3 +90,35 @@ export const deleteMusician=(musicianId)=>{
 export const reMusician=(musicianId)=>{
     return http.requestPut('admin/admin/singer/recover/'+musicianId);
 }
+//获取用户列表
+export const listUser=(page)=>{
+    return http.requestGet('user/user/list?page='+page+'&size=12')
+}
+//删除用户
+export const deleteUser=(userId)=>{
+    return http.requestDelete('user/user/'+userId);
+}
+//恢复user
+export const reUser=(userId)=>{
+    return http.requestPost('user/user/re/'+userId);
+}
+//添加管理员  具体情况看user-list.vue中
+export const addAdmin=(captchaKey,captchaCode,roleId,data)=>{
+    return http.requestPost('user/user/addAdmin?captcha_code='+captchaCode+'&captcha_key='+captchaKey+'&role_id='+roleId,data);
+}
+//获取loop信息
+export const listLoop=()=>{
+    return http.requestPost('admin/admin/looper/list');
+}
+//添加loop  具体看manage-loop
+export const addLoop=(data)=>{
+    return http.requestPost('admin/admin/looper',data);
+}
+//修改loop 
+export const updateLoop=(id,data)=>{
+    return http.requestPut('admin/admin/looper/'+id,data);
+}
+//删除loop
+export const deleteLoop=(loopId)=>{
+    return http.requestDelete('admin/admin/looper/'+loopId);
+}

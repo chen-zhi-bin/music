@@ -325,7 +325,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
         user.setRegIp(ipAddress);
 //        user.setCreateTime(new Date());
 //        user.setUpdateTime(new Date());
-        user.setAvatar(Constants.User.DEFAULT_AVATAR);
+        if (user.getAvatar()==null){
+            user.setAvatar(Constants.User.DEFAULT_AVATAR);
+        }
         user.setRoleId(Constants.User.ROLE_NORMAL);
         user.setState("1");
         user.setId(idWorker.nextId() + "");
@@ -573,7 +575,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
         //根据注册日期来排序
         QueryWrapper<UserNotPassword> userQueryWrapper = new QueryWrapper<>();
 
-        com.baomidou.mybatisplus.extension.plugins.pagination.Page<UserNotPassword> requestPage = new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page - 1, size);
+        com.baomidou.mybatisplus.extension.plugins.pagination.Page<UserNotPassword> requestPage = new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page, size);
         requestPage.addOrder(OrderItem.desc("create_time"));
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<UserNotPassword> userPage = userNotPasswordDao.selectPage(requestPage, userQueryWrapper);
         List<UserNotPassword> all = userPage.getRecords();
@@ -592,12 +594,15 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
         if (user.getId().equals(userId)) {
             return ResponseResult.FAILED("不能删除自己");
         }
-        UserNotPassword userFromDB = userNotPasswordDao.selectById(userId);
-        if (!userFromDB.getRoleId().equals(Constants.User.ROLE_NORMAL)) {
+        User userFromDB = userDao.selectById(userId);
+        if (!userFromDB.getRoleId().equals(Constants.User.ROLE_NORMAL)&&!user.getRoleId().equals(Constants.User.ROLE_ADMIN_SUPER_ID)) {
             return ResponseResult.FAILED("无法删除管理员");
         }
         //可以删除用户
-        int result = userDao.deleteByUserId(userId);
+//        int result = userDao.deleteByUserId(userId);
+        userFromDB.setState("0");
+        userFromDB.setUpdateTime(new Date());
+        int result = userDao.updateById(userFromDB);
         if (result>0){
             return ResponseResult.SUCCESS("删除成功");
         }
@@ -713,7 +718,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
         String ipAddress = request.getRemoteAddr();
         user.setLoginIp(ipAddress);
         user.setRegIp(ipAddress);
-        user.setAvatar(Constants.User.DEFAULT_AVATAR);
+        if (user.getAvatar()==null){
+            user.setAvatar(Constants.User.DEFAULT_AVATAR);
+        }
         user.setRoleId(roleId);
         user.setState("1");
         user.setId(idWorker.nextId() + "");
@@ -745,6 +752,24 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements IUser
             map.put("user",user);
             return ResponseResult.SUCCESS("获取成功").setData(map);
         }
+    }
+
+    @Override
+    public ResponseResult reUserById(String userId) {
+        User user = this.checkUser();
+        User userFromDB = userDao.selectById(userId);
+        if (!userFromDB.getRoleId().equals(Constants.User.ROLE_NORMAL)&&!user.getRoleId().equals(Constants.User.ROLE_ADMIN_SUPER_ID)) {
+            return ResponseResult.FAILED("无法恢复管理员，权限不足");
+        }
+        //可以删除用户
+//        int result = userDao.deleteByUserId(userId);
+        userFromDB.setState("1");
+        userFromDB.setUpdateTime(new Date());
+        int result = userDao.updateById(userFromDB);
+        if (result>0){
+            return ResponseResult.SUCCESS("恢复成功");
+        }
+        return ResponseResult.FAILED("用户不存在");
     }
 
     private User parseByToken(String tokenKey) {

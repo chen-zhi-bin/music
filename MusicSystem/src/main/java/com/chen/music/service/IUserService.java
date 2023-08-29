@@ -52,4 +52,6 @@ public interface IUserService extends IService<User> {
     ResponseResult deleteAdminById(String userId);
 
     ResponseResult parseToken();
+
+    ResponseResult reUserById(String userId);
 }
