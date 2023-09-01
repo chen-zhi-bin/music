@@ -1,3 +1,4 @@
+include ':viewlibrary'
 include ':module_search'
 include ':module_base'
 include ':module_ucenter'

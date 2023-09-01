@@ -15,4 +15,22 @@
         android:background="@color/black"
     android:layout_width="match_parent"
     android:layout_height="60dp"/>
+
+<!--<me.wcy.lrcview.LrcView-->
+<!--    android:id="@+id/lrc_view"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    app:lrcAnimationDuration="1000"-->
+<!--    app:lrcCurrentTextColor="#3F51B5"-->
+<!--    app:lrcDividerHeight="20dp"-->
+<!--    app:lrcLabel="找不到歌词(@_@)"-->
+<!--    app:lrcNormalTextColor="#BDBDBD"-->
+<!--    app:lrcNormalTextSize="15sp"-->
+<!--    app:lrcPadding="16dp"-->
+<!--    app:lrcTextGravity="center"-->
+<!--    app:lrcTextSize="15sp"-->
+<!--    app:lrcTimeTextColor="#BDBDBD"-->
+<!--    app:lrcTimelineColor="#80BDBDBD"-->
+<!--    app:lrcTimelineTextColor="#9FA8DA"/>-->
+
 </LinearLayout>

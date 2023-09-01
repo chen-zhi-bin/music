@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/module_login" />
             <option value="$PROJECT_DIR$/module_search" />
             <option value="$PROJECT_DIR$/module_ucenter" />
+            <option value="$PROJECT_DIR$/viewlibrary" />
           </set>
         </option>
       </GradleProjectSettings>

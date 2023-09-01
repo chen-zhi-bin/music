@@ -4,8 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout"
     android:background="@mipmap/background"
     tools:context=".ui.activity.MusicPlayActivity">
+
+    <ImageView
+        android:id="@+id/bg_iv"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/home_hear_layout"
@@ -50,8 +62,73 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <com.dirror.lyricviewx.LyricViewX
-        android:id="@+id/lyricViewX"
+    <RelativeLayout
+        android:id="@+id/jingyu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/ivShowPic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:elevation="3dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="1dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.example.viewlibrary.view.JinyunView
+                android:id="@+id/sv_bg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <me.wcy.lrcview.LrcView
+
+        android:id="@+id/lyricView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/home_relativelayout"
@@ -60,9 +137,30 @@
         app:layout_constraintTop_toBottomOf="@+id/home_hear_layout"
         android:layout_marginBottom="@dimen/dp_170"
         android:layout_marginTop="@dimen/dp_100"
+        app:lrcLabel="暂 无 歌 词"
+        app:lrcTimelineColor="@color/white"
+        app:lrcTimelineTextColor="@color/blue_light"
+        app:lrcTimeTextSize="@dimen/sp_12"
+        app:lrcTimeTextColor="@color/white"
+        app:lrcCurrentTextColor="@color/blue_light"
+        app:lrcNormalTextColor="@color/white"
         app:lrcPadding="16dp">
+    </me.wcy.lrcview.LrcView>
 
-    </com.dirror.lyricviewx.LyricViewX>
+
+<!--    <com.dirror.lyricviewx.LyricViewX-->
+<!--        android:id="@+id/lyricViewX"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/home_relativelayout"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/home_hear_layout"-->
+<!--        android:layout_marginBottom="@dimen/dp_170"-->
+<!--        android:layout_marginTop="@dimen/dp_100"-->
+<!--        app:lrcPadding="16dp">-->
+
+<!--    </com.dirror.lyricviewx.LyricViewX>-->
 
 
     <!--     进度条和时间-->
