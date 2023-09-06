@@ -174,28 +174,18 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        if (isNeedtoFragmentUser) {
-//            isLogin = mSharedPreferencesUtils.contains(SharedPreferencesUtils.USER_TOKEN_COOKIE);
-//            LogUtils.d("boolean", "isLogin == " + isLogin);
-//            if (isLogin) {
-//                if (mUserFragment == null){
-//                    mUserFragment = (BaseFragment) UcenterServiceWrap.Singletion.INSTANCE.getHolder().getFragment();
-//                }
-//                switchFragment(mUserFragment);
-//                mNavigationView.setSelectedItemId(mNavigationView.getMenu().getItem(Constants.NAVIGATION_VIEW_MENU_USER_ITEM_ID_INDEX).getItemId());
-//            }
-//            isNeedtoFragmentUser = false;
-//        }
-        isLogin = mSharedPreferencesUtils.contains(SharedPreferencesUtils.USER_TOKEN_COOKIE);
-        if (isLogin) {
-            if (mUserFragment == null){
-                mUserFragment = (BaseFragment) UcenterServiceWrap.Singletion.INSTANCE.getHolder().getFragment();
+        if (isNeedtoFragmentUser) {
+            isLogin = mSharedPreferencesUtils.contains(SharedPreferencesUtils.USER_TOKEN_COOKIE);
+            if (isLogin) {
+                if (mUserFragment == null){
+                    mUserFragment = (BaseFragment) UcenterServiceWrap.Singletion.INSTANCE.getHolder().getFragment();
+                }
+                switchFragment(mUserFragment);
+                mNavigationView.setSelectedItemId(mNavigationView.getMenu().getItem(Constants.NAVIGATION_VIEW_MENU_USER_ITEM_ID_INDEX).getItemId());
+            }else {
+                switchFragment(mHomeFragment);
+                mNavigationView.setSelectedItemId(mNavigationView.getMenu().getItem(0).getItemId());
             }
-            switchFragment(mUserFragment);
-            mNavigationView.setSelectedItemId(mNavigationView.getMenu().getItem(Constants.NAVIGATION_VIEW_MENU_USER_ITEM_ID_INDEX).getItemId());
-        }else {
-            switchFragment(mHomeFragment);
-            mNavigationView.setSelectedItemId(mNavigationView.getMenu().getItem(0).getItemId());
         }
     }
 
