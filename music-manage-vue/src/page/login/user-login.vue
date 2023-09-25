@@ -4,7 +4,7 @@
         <div class="admin-login-header-box">
             <div class="admin-login-header-center center">
                 <div class="admin-login-logo">
-                    博客系统|登录
+                    Music系统|登录
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
                                 <el-input v-model="user.userName" placeholder="用户名" />
                             </el-form-item>
                             <el-form-item label="密码" required>
-                                <el-input v-model="user.password" placeholder="密码" />
+                                <el-input v-model="user.password"  type="password" placeholder="密码" />
                             </el-form-item>
                             <el-form-item label="人类验证码" required>
                                 <el-input v-model="loginInfo.verifyCode" placeholder="右侧验证码" @keypress.enter="doLogin" />

@@ -1,5 +1,6 @@
 package com.czb.module_home.ui.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -17,6 +18,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.media.audiofx.Visualizer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +39,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.czb.module_base.RoutePath;
 import com.czb.module_base.base.BaseActivity;
+import com.czb.module_base.callback.LoadingCallback;
 import com.czb.module_base.common.Constants;
 import com.czb.module_base.common.service.moyu.wrap.MoyuServiceWrap;
 import com.czb.module_base.utils.LogUtils;
@@ -51,7 +54,11 @@ import com.example.viewlibrary.util.AudioVisualConverter;
 import com.example.viewlibrary.util.BlurUtil;
 import com.example.viewlibrary.util.ImageUtil;
 import com.example.viewlibrary.view.JinyunView;
+import com.kingja.loadsir.callback.Callback;
+import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
 import com.lzx.starrysky.OnPlayProgressListener;
+import com.lzx.starrysky.OnPlayerEventListener;
 import com.lzx.starrysky.SongInfo;
 import com.lzx.starrysky.StarrySky;
 import com.lzx.starrysky.control.PlayerControl;
@@ -96,6 +103,9 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
     private JinyunView mJingyunView;
     ObjectAnimator objectAnimator;
     private ImageView mBgIv;
+    private LoadService mLoadService;
+    private String mPlayerEventTag = "2";
+    private String mCurrentMusicId = null;
 
     @Override
     protected void initPresenter() {
@@ -110,6 +120,7 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
         mMusicianNameTv.setText(nowPlayingSongInfo.getArtist());
         if (nowPlayingSongInfo != null) {
             mMusicPlayActivityPresenter.getMusicInfo(nowPlayingSongInfo.getSongId());
+            mCurrentMusicId = nowPlayingSongInfo.getSongId();
         }
     }
 
@@ -134,7 +145,9 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
                 switch (playbackStage.getStage()){
                     case PlaybackStage.PLAYING:
                         LogUtils.d("test","正在播放");
-                        getLyric();
+                        if (!mLrcView.hasLrc()) {
+                            getLyric();
+                        }
                         mPlayOrPauseIv.setImageResource(R.mipmap.pause_white);
                         mPlayOrPauseIv.setTag(Constants.MusicState.PLAY);
                         break;
@@ -165,6 +178,24 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
                 }
             }
         });
+        mControl.addPlayerEventListener(new OnPlayerEventListener() {
+            @Override
+            public void onPlaybackStageChange(@NonNull PlaybackStage playbackStage) {
+                if (!playbackStage.isStop()) {
+//                    下一首
+                    SongInfo nowPlayingSongInfo = mControl.getNowPlayingSongInfo();
+                    mJingyunView.setVisibility(View.VISIBLE);
+                    mLoadService.showCallback(LoadingCallback.class);
+                    initMusicInfo(nowPlayingSongInfo,nowPlayingSongInfo.getSongCover());
+                    String songId = nowPlayingSongInfo.getSongId();
+                    if (!mCurrentMusicId.equals(songId)) {
+                        mCurrentMusicId = songId;
+                        getLyric();
+                    }
+//                    getBitmap();
+                }
+            }
+        },mPlayerEventTag);
 //        mLyricViewX.setDraggable(true, new OnPlayClickListener() {
 //            @Override
 //            public boolean onPlayClick(long l) {
@@ -202,9 +233,9 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
                 //点击左边箭头时音乐跳转
                 long s = time / 1000;
                 mCurrentPosition.setText(mMinFormt.format(s));
-                mLrcView.updateTime(time);
-                mDurationBar.setProgress(Integer.parseInt(s+""));
                 mControl.seekTo(time,true);
+//                mLrcView.updateTime(time);
+                mDurationBar.setProgress(Integer.parseInt(s+""));
                 return true;
             }
         });
@@ -218,7 +249,9 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
 
                 //刷新歌词
 //                mLyricViewX.updateTime(currPos,true);
-                mLrcView.updateTime(currPos);
+//                LogUtils.d("test","currPos ==>"+currPos);
+//                mLrcView.updateTime(currPos);
+                    mLrcView.updateTime(currPos);
             }
         });
 
@@ -263,6 +296,13 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
 
     @Override
     protected void initView() {
+        mLoadService = LoadSir.getDefault().register(this, new Callback.OnReloadListener() {
+            @Override
+            public void onReload(View v) {
+
+            }
+        });
+        mLoadService.showCallback(LoadingCallback.class);
         mHeaderLayout = this.findViewById(R.id.home_hear_layout);
 //        mLyricViewX = this.findViewById(R.id.lyricViewX);
 //        mLyricViewX.setCurrentColor(  ContextCompat.getColor(
@@ -302,6 +342,35 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
         SongInfo nowPlayingSongInfo = mControl.getNowPlayingSongInfo();
         String songCover = nowPlayingSongInfo.getSongCover();
 
+        mIvShowPic = this.findViewById(R.id.ivShowPic);
+        initMusicInfo(nowPlayingSongInfo, songCover);
+        if (mControl.isPlaying()) {
+            mPlayOrPauseIv.setTag(Constants.MusicState.PLAY);
+            mPlayOrPauseIv.setImageResource(R.mipmap.pause_white);
+        }else {
+            mPlayOrPauseIv.setTag(Constants.MusicState.PAUSE);
+            mPlayOrPauseIv.setImageResource(R.mipmap.play_white);
+        }
+
+
+        mJingyunLayout = this.findViewById(R.id.jingyu_layout);
+        mJingyunView = this.findViewById(R.id.sv_bg);
+
+//        getBitmap();
+        PermissonUtil.checkPermission(this, new PermissionListener() {
+            @Override
+            public void havePermission() {
+                initVisualizer();
+            }
+            @Override
+            public void requestPermissionFail() {
+
+            }
+        }, permissons);
+
+    }
+
+    private void initMusicInfo(SongInfo nowPlayingSongInfo, String songCover) {
         if (songCover != null) {
             Glide.with(mBgIv.getContext())
                     .load(songCover)
@@ -336,38 +405,6 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
                     })
                     .into(mBgIv);
         }
-//        setBackground(songCover);
-        if (nowPlayingSongInfo!=null){
-            long duration = nowPlayingSongInfo.getDuration();
-            mDurationBar.setMax(Integer.parseInt(duration+""));
-            long min = duration/60;
-            long s = duration%60;
-            String total ="";
-            if (1==(min+"").length()) {
-                total = total+"0"+min+":";
-            }else {
-                total = total+min+":";
-            }
-            if (1==(s+"").length()) {
-                total = total+"0"+s;
-            }else {
-                total+=s;
-            }
-            mTotalDuration.setText(total);
-            mMusicNameTv.setText(nowPlayingSongInfo.getSongName());
-            mMusicianNameTv.setText(nowPlayingSongInfo.getArtist());
-        }
-        if (mControl.isPlaying()) {
-            mPlayOrPauseIv.setTag(Constants.MusicState.PLAY);
-            mPlayOrPauseIv.setImageResource(R.mipmap.pause_white);
-        }else {
-            mPlayOrPauseIv.setTag(Constants.MusicState.PAUSE);
-            mPlayOrPauseIv.setImageResource(R.mipmap.play_white);
-        }
-
-        mIvShowPic = this.findViewById(R.id.ivShowPic);
-        mJingyunLayout = this.findViewById(R.id.jingyu_layout);
-        mJingyunView = this.findViewById(R.id.sv_bg);
         Glide.with(MusicPlayActivity.this).asBitmap().addListener(new RequestListener<Bitmap>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
@@ -389,19 +426,29 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
         objectAnimator.setInterpolator(new LinearInterpolator());
         objectAnimator.setRepeatCount(-1);
         objectAnimator.start();
-//        getBitmap();
-        PermissonUtil.checkPermission(this, new PermissionListener() {
-            @Override
-            public void havePermission() {
-                initVisualizer();
+//        setBackground(songCover);
+        if (nowPlayingSongInfo !=null){
+            long duration = nowPlayingSongInfo.getDuration();
+            mDurationBar.setMax(Integer.parseInt(duration+""));
+            long min = duration/60;
+            long s = duration%60;
+            String total ="";
+            if (1==(min+"").length()) {
+                total = total+"0"+min+":";
+            }else {
+                total = total+min+":";
             }
-            @Override
-            public void requestPermissionFail() {
-
+            if (1==(s+"").length()) {
+                total = total+"0"+s;
+            }else {
+                total+=s;
             }
-        }, permissons);
-
+            mTotalDuration.setText(total);
+            mMusicNameTv.setText(nowPlayingSongInfo.getSongName());
+            mMusicianNameTv.setText(nowPlayingSongInfo.getArtist());
+        }
     }
+
     String[] permissons = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO};
 //    @Override
@@ -456,13 +503,16 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
     public void setMusicInfo(MusicAndMusicianInfoBean data) {
         String lyric = data.getData().getMusicInfo().getLyric();
 //        mLyricViewX.loadLyric(lyric,null);
+        mLrcView.setVisibility(View.VISIBLE);
         mLrcView.loadLrc(lyric);
+        mLoadService.showSuccess();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mMusicPlayActivityPresenter.unregisterViewCallback(this);
+        mControl.removePlayerEventListener(mPlayerEventTag);
     }
 
     private void setBackground(String url) {
@@ -516,6 +566,7 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
         thread.start();
         //暂时不显示
         mJingyunLayout.setVisibility(View.GONE);
+        mLoadService.showSuccess();
     }
     AudioVisualConverter visualConverter=new AudioVisualConverter();
 

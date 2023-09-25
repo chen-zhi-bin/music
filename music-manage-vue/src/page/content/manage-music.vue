@@ -21,7 +21,7 @@
         </div>
 
         <div class="music-list-box">
-            <el-table :data="listmusic" style="width: 100%" height="450">
+            <el-table :data="listmusic" style="width: 100%" height="550">
                 <el-table-column fixed prop="musicId" label="id" width="180" />
                 <el-table-column prop="picId" label="封面" width="130">
                     <template v-slot="scope">
