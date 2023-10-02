@@ -5,11 +5,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.czb.module_base.base.BaseApplication;
 import com.czb.module_base.common.Constants;
+import com.czb.module_base.utils.SharedPreferencesUtils;
 import com.czb.module_home.callback.IMusicListActivityCallback;
 import com.czb.module_home.callback.IMusicPlayActivityCallback;
 import com.czb.module_home.callback.IMusicianActivityCallback;
 import com.czb.module_home.model.HomeApi;
+import com.czb.module_home.model.bean.CollectedMusicBean;
 import com.czb.module_home.model.bean.MusicAndMusicianInfoBean;
 import com.czb.module_home.model.bean.MusicianMusicBean;
 import com.czb.module_home.presenter.IMusicPlayActivityPresenter;
@@ -29,13 +32,15 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MusicPlayActivityPresenterImpl implements IMusicPlayActivityPresenter {
 
     private final HomeApi mApi;
+    private final SharedPreferencesUtils mSharedPreferencesUtils;
+    private final String mToken;
     private List<IMusicPlayActivityCallback> mCallbacks = new ArrayList<>();
     private IMusicPlayActivityCallback mCallback;
 
     private static final int ERROR = 0;
     private static final int RETURN_ERROR = 1;
     private static final int RETURN_MUSIC = 2;
-
+    private static final int RETURN_MUSIC_COLLECT_SUCCESS = 3;
 
     private final Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
@@ -57,6 +62,9 @@ public class MusicPlayActivityPresenterImpl implements IMusicPlayActivityPresent
                 case RETURN_MUSIC:
                     mCallback.setMusicInfo((MusicAndMusicianInfoBean)msg.obj);
                     break;
+                case RETURN_MUSIC_COLLECT_SUCCESS:
+                    mCallback.setMusicCollectionMsg((CollectedMusicBean)msg.obj);
+                    break;
             }
 
         }
@@ -64,6 +72,8 @@ public class MusicPlayActivityPresenterImpl implements IMusicPlayActivityPresent
 
     public MusicPlayActivityPresenterImpl() {
         mApi = RetrofitManager.getInstence().getApi();
+        mSharedPreferencesUtils = SharedPreferencesUtils.getInstance(BaseApplication.getAppContext());
+        mToken = mSharedPreferencesUtils.getString(SharedPreferencesUtils.USER_TOKEN_COOKIE);
     }
 
     @Override
@@ -124,6 +134,40 @@ public class MusicPlayActivityPresenterImpl implements IMusicPlayActivityPresent
                            }
                 );
 
+    }
+
+    @Override
+    public void postCollectMusicById(String currentMusicId) {
+
+        mApi.postCollectMusicById(mToken,currentMusicId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .compose(mCallback.TobindToLifecycle())
+                .subscribe(new Observer<Object>() {
+
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Object o) {
+                        Message message = new Message();
+                        message.what=((CollectedMusicBean)o).getCode()== Constants.SUCCESS?RETURN_MUSIC_COLLECT_SUCCESS:ERROR;
+                        message.obj = o;
+                        mHandler.sendMessage(message);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     private void requestFailed() {

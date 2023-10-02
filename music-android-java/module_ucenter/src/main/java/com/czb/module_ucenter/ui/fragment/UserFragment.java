@@ -11,6 +11,7 @@ import com.czb.module_base.base.BaseFragment;
 import com.czb.module_base.common.Constants;
 import com.czb.module_base.common.service.ucenter.wrap.UcenterServiceWrap;
 import com.czb.module_base.utils.LogUtils;
+import com.czb.module_base.utils.SharedPreferencesUtils;
 import com.czb.module_base.utils.StatusBarUtil;
 import com.czb.module_base.utils.ToastUtils;
 import com.czb.module_ucenter.R;
@@ -34,6 +35,9 @@ public class UserFragment extends BaseFragment implements IUserFragmentCallback 
     private RoundedImageView mAvatarIv;
     private SuperTextView mSetTv;
     private SuperTextView mHistoryTv;
+    private SuperTextView mCollectionTv;
+    private SharedPreferencesUtils mSharedPreferencesUtils;
+    private String mUserId = null;
 
     @Override
     protected int getRootViewResId() {
@@ -51,6 +55,7 @@ public class UserFragment extends BaseFragment implements IUserFragmentCallback 
         mUserMsgTv = rootView.findViewById(R.id.tv_header_mes);
         mAvatarIv = rootView.findViewById(R.id.iv_avatar);
         mHistoryTv = rootView.findViewById(R.id.tv_history);
+        mCollectionTv = rootView.findViewById(R.id.tv_collection);
         mSetTv = rootView.findViewById(R.id.tv_set);
         setStatusBar();
     }
@@ -64,22 +69,19 @@ public class UserFragment extends BaseFragment implements IUserFragmentCallback 
     @Override
     protected void initPresenter() {
         mUserFragmentPresenter = PresenterManager.getInstance().getUserFragmentPresenter();
+        mSharedPreferencesUtils = SharedPreferencesUtils.getInstance(getActivity());
+        mUserId = mSharedPreferencesUtils.getString(SharedPreferencesUtils.USER_ID);
         mUserFragmentPresenter.registerViewCallback(this);
         mUserFragmentPresenter.getUserInfo();
     }
 
     @Override
     protected void initListener() {
-        mSetTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UcenterServiceWrap.Singletion.INSTANCE.getHolder().launchSetting();
-            }
-        });
-        mHistoryTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UcenterServiceWrap.Singletion.INSTANCE.getHolder().launchHistory();
+        mSetTv.setOnClickListener(v -> UcenterServiceWrap.Singletion.INSTANCE.getHolder().launchSetting());
+        mHistoryTv.setOnClickListener(v -> UcenterServiceWrap.Singletion.INSTANCE.getHolder().launchHistory());
+        mCollectionTv.setOnClickListener(v -> {
+            if (mUserId != null) {
+                UcenterServiceWrap.Singletion.INSTANCE.getHolder().launchCollection(mUserId);
             }
         });
     }

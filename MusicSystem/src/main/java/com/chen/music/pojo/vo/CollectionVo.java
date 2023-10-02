@@ -7,6 +7,8 @@ public class CollectionVo {
     private String singerName;
     private String url;
     private String fileHighUrl;
+    private String picId;
+    private String duration;
 
     @Override
     public String toString() {
@@ -16,8 +18,27 @@ public class CollectionVo {
                 ", singerName='" + singerName + '\'' +
                 ", url='" + url + '\'' +
                 ", fileHighUrl='" + fileHighUrl + '\'' +
+                ", picId='" + picId + '\'' +
+                ", duration='" + duration + '\'' +
                 '}';
     }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getPicId() {
+        return picId;
+    }
+
+    public void setPicId(String picId) {
+        this.picId = picId;
+    }
+
 
     public String getMusicId() {
         return musicId;

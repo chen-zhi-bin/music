@@ -64,9 +64,9 @@ public class CollectionServiceImpl  extends ServiceImpl<CollectionDao, Collectio
             collection.setUserId(user.getId());
             collection.setMusicId(musicId);
             collectionDao.insert(collection);
-            return ResponseResult.FAILED("收藏此音乐成功");
+            return ResponseResult.SUCCESS("收藏此音乐成功");
         }
-        return ResponseResult.FAILED("已收藏此音乐");
+        return ResponseResult.SUCCESS("已收藏此音乐");
     }
 
     @Override
@@ -76,7 +76,7 @@ public class CollectionServiceImpl  extends ServiceImpl<CollectionDao, Collectio
             return ResponseResult.ACCOUNT_NOT_LOGIN();
         }
         page= CheckUtils.checkPage(page);
-        Page<CollectionVo> collectionVoPage = new Page<>(page - 1, 100);
+        Page<CollectionVo> collectionVoPage = new Page<>(page , 100);
         QueryWrapper<CollectionVo> collectionVoQueryWrapper = new QueryWrapper<>();
         collectionVoQueryWrapper.eq("tb_collection.user_id",user.getId());
         IPage<CollectionVo> musicListByPage = collectionDao.getMusicListByPage(collectionVoPage, collectionVoQueryWrapper);

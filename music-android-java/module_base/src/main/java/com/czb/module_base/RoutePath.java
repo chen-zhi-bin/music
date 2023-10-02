@@ -38,5 +38,6 @@ public class RoutePath {
         public static final String SERVICE_UCENTER="/ucenter/SERVICE_UCENTER";
         public static final String PAGE_USER_SET = "/ucenter/setting";
         public static final String PAGE_USER_HISTORY = "/ucenter/history";
+        public static final String PAGE_USER_COLLECTION = "/ucenter/collection";
     }
 }

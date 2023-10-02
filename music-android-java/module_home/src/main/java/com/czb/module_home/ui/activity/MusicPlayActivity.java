@@ -21,6 +21,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -47,6 +51,7 @@ import com.czb.module_base.utils.StatusBarUtil;
 import com.czb.module_base.utils.ToastUtils;
 import com.czb.module_home.R;
 import com.czb.module_home.callback.IMusicPlayActivityCallback;
+import com.czb.module_home.model.bean.CollectedMusicBean;
 import com.czb.module_home.model.bean.MusicAndMusicianInfoBean;
 import com.czb.module_home.presenter.IMusicPlayActivityPresenter;
 import com.czb.module_home.utils.PresenterManager;
@@ -106,6 +111,7 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
     private LoadService mLoadService;
     private String mPlayerEventTag = "2";
     private String mCurrentMusicId = null;
+    private ImageView mMoreIv;
 
     @Override
     protected void initPresenter() {
@@ -126,6 +132,12 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
 
     @Override
     protected void initEvent() {
+        mMoreIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.showContextMenu();
+            }
+        });
         mLastMusicIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -294,6 +306,26 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
         });
     }
 
+    //菜单
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        new MenuInflater(this).inflate(R.menu.menu_optionmenu,menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    //菜单点击事件
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.item_collection){
+            if (mCurrentMusicId != null) {
+                mMusicPlayActivityPresenter.postCollectMusicById(mCurrentMusicId);
+            }else {
+                ToastUtils.showToast("网络错误，请刷新后重试");
+            }
+        }
+        return super.onContextItemSelected(item);
+    }
+
     @Override
     protected void initView() {
         mLoadService = LoadSir.getDefault().register(this, new Callback.OnReloadListener() {
@@ -332,6 +364,12 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
         mTotalDuration = this.findViewById(R.id.track_duration);
         mMusicNameTv = this.findViewById(R.id.music_name);
         mMusicianNameTv = this.findViewById(R.id.musician_name);
+
+        //菜单绑定在 mMoreIv 上
+        mMoreIv = this.findViewById(R.id.iv_more);
+        registerForContextMenu(mMoreIv);
+
+
         this.findViewById(R.id.back).setOnClickListener(v -> finish());
         setStatusBar();
         mControl = StarrySky.with();
@@ -506,6 +544,11 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
         mLrcView.setVisibility(View.VISIBLE);
         mLrcView.loadLrc(lyric);
         mLoadService.showSuccess();
+    }
+
+    @Override
+    public void setMusicCollectionMsg(CollectedMusicBean data) {
+        ToastUtils.showToast(data.getMessage());
     }
 
     @Override

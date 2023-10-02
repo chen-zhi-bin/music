@@ -48,6 +48,13 @@ public class UcenterServiceWrap{
                 .navigation();
     }
 
+    public void launchCollection(String userId) {
+        ARouter.getInstance()
+                .build(RoutePath.Ucenter.PAGE_USER_COLLECTION)
+                .withString(RoutePath.Ucenter.PARAMS_USER_ID,userId)
+                .navigation();
+    }
+
 
     public static final class Singletion{
         private static final UcenterServiceWrap holder;

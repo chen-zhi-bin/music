@@ -1,6 +1,7 @@
 package com.czb.module_home.model;
 
 import com.czb.module_home.model.bean.BannerBean;
+import com.czb.module_home.model.bean.CollectedMusicBean;
 import com.czb.module_home.model.bean.MusicAndMusicianInfoBean;
 import com.czb.module_home.model.bean.MusicianMusicBean;
 import com.czb.module_home.model.bean.RecommendMusicBean;
@@ -9,6 +10,7 @@ import com.czb.module_home.model.bean.TopMusicBean;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -34,4 +36,7 @@ public interface HomeApi {
 
     @GET("/music/info/{musicId}")
     Observable<MusicAndMusicianInfoBean> getMusicInfo(@Path("musicId")String musicId);
+
+    @POST("/collection/{musicId}")
+    Observable<CollectedMusicBean> postCollectMusicById(@Header("cookie_token")String token, @Path("musicId")String musicId);
 }

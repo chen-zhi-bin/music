@@ -93,7 +93,7 @@
         app:sRightIconRes="@mipmap/ic_next" />
 
     <com.allen.library.SuperTextView
-        android:id="@+id/tv_set"
+        android:id="@+id/tv_collection"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_46"
         android:paddingLeft="@dimen/dp_10"
@@ -102,6 +102,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_history"
+        app:sBackgroundDrawableRes="@drawable/menu_btn_selector"
+        app:sLeftIconRes="@mipmap/ic_collection"
+        app:sLeftTextColor="@color/textSecondary"
+        app:sLeftTextSize="@dimen/sp_14"
+        app:sLeftTextString="收藏列表"
+        app:sRightIconRes="@mipmap/ic_next" />
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/tv_set"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_46"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_collection"
         app:sBackgroundDrawableRes="@drawable/menu_btn_selector"
         app:sLeftIconRes="@mipmap/ic_setting"
         app:sLeftTextColor="@color/textSecondary"
