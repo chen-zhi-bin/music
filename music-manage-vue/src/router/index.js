@@ -5,6 +5,7 @@ const musicManage =() =>import ("@/page/content/manage-music");
 const imageManage =() =>import ("@/page/content/manage-image");
 const commentManage =() =>import ("@/page/content/manage-comment");
 const manageMusician =() =>import ("@/page/content/manage-musician");
+const assessorMusic =() =>import ("@/page/content/manage-assessor");
 //首页
 const index =() =>import ("@/page/dashboard/dashboard-index");
 //运营
@@ -40,7 +41,7 @@ export const routes = [
           path: '/content',
           icon:'Document',
           requireLogin:true,
-          roleIds:[1,3,4],
+          roleIds:[1,3,4,5],
           name:'内容',
           hidden:false,
           component: rightView,
@@ -72,6 +73,13 @@ export const routes = [
               name:'歌手管理',
               hidden:false,
               component: manageMusician
+            },
+            {
+              path:'manage-assessor',
+              icon:'Microphone',
+              name:'审核',
+              hidden:false,
+              component: assessorMusic
             }
           ]
         },

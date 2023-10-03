@@ -122,3 +122,19 @@ export const updateLoop=(id,data)=>{
 export const deleteLoop=(loopId)=>{
     return http.requestDelete('admin/admin/looper/'+loopId);
 }
+//获取待审核列表
+export const assessorList=(page,size)=>{
+    return http.requestGet('admin/admin/assessor/list/'+page+'/'+size);
+}
+//通过审核
+export const passAssessor=(musicId)=>{
+    return http.requestPost('admin/admin/assessor/pass/'+musicId);
+}
+//退回
+export const refuseAssessor=(musicId)=>{
+    return http.requestDelete('admin/admin/assessor/refuse/'+musicId);
+}
+//获取未通过列表
+export const refuseList=(page,size)=>{
+    return http.requestGet('admin/admin/assessor/refuseList/'+page+'/'+size);
+}

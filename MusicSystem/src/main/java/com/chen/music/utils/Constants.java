@@ -9,10 +9,12 @@ public interface Constants {
     }
 
     interface Music{
-        //1表示正常，0表示删除，3表示置顶
+        //1表示正常，0表示删除，3表示置顶,4表示需要审核
         String STATE_DELETE="0";
         String STATE_PUBLISH="1";
         String STATE_TOP="3";
+        String STATE_AUDITED="4";
+        String STATE_REFUSE="5";
         Long PREDICT_SUB_COMMENT_SIZE=3L;
 
     }
@@ -42,6 +44,7 @@ public interface Constants {
         String ROLE_ADMIN_USER_ID = "2";
         String ROLE_ADMIN_IMAGE_ID = "3";
         String ROLE_ADMIN_MUSIC_ID = "4";
+        String ROLE_ADMIN_ASSESSOR_ID = "5";
         String ROLE_ADMIN_SUPER_ID = "1";
     }
 

@@ -260,7 +260,7 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         QueryWrapper<Music> updateWrapper = new QueryWrapper<>();
         updateWrapper.eq("id",id);
         int res = musicDao.update(music, updateWrapper);
-        return res>0?ResponseResult.SUCCESS("恢复成功"):ResponseResult.FAILED("恢复失败");
+        return res>0?ResponseResult.SUCCESS("修改成功"):ResponseResult.FAILED("修改失败");
     }
 
     @Override
