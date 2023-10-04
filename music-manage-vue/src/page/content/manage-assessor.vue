@@ -63,6 +63,7 @@
 
                 <el-table-column fixed="right" label="Operations" width="200">
                     <template v-slot="scope">
+                        <el-button type="primary"  size="small" @click="audition(scope.row)">试听</el-button>
                         <el-button type="primary" v-if="scope.row.state == '4'" size="small" @click="pass(scope.row)">通过</el-button>
                         <el-button type="primary" v-if="scope.row.state == '5'" size="small" @click="pass(scope.row)">通过</el-button>
                         <el-button type="danger" v-if="scope.row.state == '4'" size="small"
@@ -116,6 +117,9 @@ export default {
         this.getList();
     },
     methods: {
+        audition(item){
+            window.open('admin/music/'+item.url);
+        },
         getRefuseList(){
         api.refuseList(this.refuseLitPage,30)
         .then(result=>{
