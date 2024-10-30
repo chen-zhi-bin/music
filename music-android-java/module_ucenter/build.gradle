@@ -89,5 +89,7 @@ dependencies {
     implementation 'com.github.getActivity:TitleBar:10.5'
     implementation rootProject.ext.dependencies.roundedimageview
     implementation rootProject.ext.dependencies.super_text_view
+
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
     api project(':module_base')
 }

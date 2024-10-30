@@ -8,6 +8,7 @@ public class Constants {
     public static final int NAVIGATION_VIEW_MENU_RECOMMEND_ITEM_ID_INDEX = 0;
     public static final int NAVIGATION_VIEW_MENU_USER_ITEM_ID_INDEX = 2;
     public static final String BASE_URL = "http://10.0.2.2:8090";
+//    public static final String BASE_URL = "http://10.120.49.61:8090";
     public static final int SUCCESS = 20000;
     public static final String BASE_URL_IMAGE = BASE_URL + "/image/";
     public static final String BASE_URL_MUSIC = BASE_URL + "/music/";

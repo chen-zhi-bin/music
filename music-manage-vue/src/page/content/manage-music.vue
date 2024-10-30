@@ -2,13 +2,14 @@
     <div>
         <div class="music-action-bar">
             <el-button type="primary" aria-setsize="mini" @click="showAddMusic()">添加音乐</el-button>
+            <el-button type="primary" aria-setsize="mini" @click="showAddList()">批量添加</el-button>
             <el-button plain @click="getAllMusic()">全部音乐列表</el-button>
             <el-button type="success" plain @click="getTopMusic()">被顶置列表</el-button>
             <el-button type="danger" plain @click="getDeleteMusic()">被删除列表</el-button>
 
             <div class="music-action-bar-right">
                 <!-- <el-input v-model="input2" class="w-50 m-2" placeholder="搜索" :suffix-icon="Search" /> -->
-                
+
                 <el-input v-model="searchKey" placeholder="搜索" class="input-with-select">
                     <template #prepend>
                         <el-icon @click="changSearchKey">
@@ -30,7 +31,7 @@
                             :src="baseUrlImage + '/' + scope.row.picId" />
                     </template>
                 </el-table-column>
-                <el-table-column prop="musicName" label="歌名" width="150" >
+                <el-table-column prop="musicName" label="歌名" width="150">
                     <template v-slot="scope">
                         <div v-html="scope.row.musicName"></div>
                     </template>
@@ -47,6 +48,14 @@
                         <div v-if="scope.row.state === '3'">
                             <el-tag type="success">顶 置</el-tag>
                         </div>
+                        <div v-if="scope.row.state === '4'">
+                            <el-tag type="danger">待审核</el-tag>
+                        </div>
+                        <div v-if="scope.row.state === '5'">
+                            <el-tag type="danger">拒绝</el-tag>
+                        </div>
+
+
                     </template>
                 </el-table-column>
                 <el-table-column prop="lyric" label="歌词" width="200">
@@ -68,7 +77,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="userName" label="更改人" width="120" />
-                <el-table-column fixed="right" label="Operations" width="200">
+                <el-table-column fixed="right" label="修改" width="200">
                     <template v-slot="scope">
                         <el-button type="primary" size="small" @click="edit(scope.row)">编辑</el-button>
                         <el-button type="success" v-if="scope.row.state !== '3'" size="small"
@@ -163,6 +172,41 @@
                     </span>
                 </template>
             </el-dialog>
+
+            <!-- 批量添加 -->
+            <el-dialog v-model="batchAdditionDialogShow" :title="batchAdditionDialogShowTitle" center width="30%">
+
+
+                <!-- :http-request="uploadList" -->
+                <el-upload drag multiple :auto-upload="false" class="upload-demo" :action="baseUrlMusic"
+                    :on-success="uploadAfter" with-credentials="true" v-model:file-list="fileList" ref="unloadListRef">
+                    <!-- <el-upload v-model:file-list="fileList" class="upload-demo" :auto-upload="false"
+                                :action="baseUrlImage"
+                                ref="unloadListRef"
+                    > -->
+
+
+                    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+                    <div class="el-upload__text">
+                        拖拽文件到这或者 <em>点击选择</em>
+                    </div>
+                    <template #tip>
+                        <div class="el-upload__tip">
+                            最好是mp3格式，文件命名 歌名-歌手.mp3
+                        </div>
+                    </template>
+
+                </el-upload>
+
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button @click="batchAdditionDialogShowCancel()">取消</el-button>
+                        <el-button type="primary" @click="batchAdditionDialogShowConfirm()">
+                            确认
+                        </el-button>
+                    </span>
+                </template>
+            </el-dialog>
         </div>
 
     </div>
@@ -174,7 +218,7 @@ import * as dateUtils from '../../utils/date';
 export default {
     data() {
         return {
-            searchKey:'',
+            searchKey: '',
             listmusic: [],
             musicState: 'all',
             musicPage: 1,
@@ -198,7 +242,10 @@ export default {
             editDialogShow: false,
             editorCommitText: '',
             editTitle: '',
-            doSearchPage:1
+            doSearchPage: 1,
+            batchAdditionDialogShow: false,
+            batchAdditionDialogShowTitle: '批量添加',
+            upload: 'admin/admin/music/musics'
         }
     },
     mounted() {
@@ -208,6 +255,41 @@ export default {
         dissmiss() {
             this.editDialogShow = false;
             this.resetMusic();
+        },
+        // uploadList(files){
+        //     api.upload(files).then(res=>{
+        //         console.log(res);
+        //     })
+        // },
+        uploadAfter(res) {
+            // console.log(res);
+            if (res.message == '音频已经存在') {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.name + '音频已经存在',
+                    type: 'warning',
+                    duration: 0
+                });
+              
+            } else if (res.code != 20000) {
+                this.$notify({
+                    title: '警告',
+                    message: res.data.message,
+                    duration: 0
+                });
+            
+            }
+        },
+        batchAdditionDialogShowConfirm() {
+            console.log(this.$refs.unloadListRef);
+            this.$refs.unloadListRef.submit();
+
+        },
+        batchAdditionDialogShowCancel() {
+            this.batchAdditionDialogShow = false;
+        },
+        showAddList() {
+            this.batchAdditionDialogShow = true;
         },
         showAddMusic() {
             this.resetMusic();
@@ -336,12 +418,12 @@ export default {
         },
         handleCurrentChange(page) {
             this.musicPage = page;
-            if(this.musicState == 'search'){
+            if (this.musicState == 'search') {
                 this.changSearchKey();
-            }else{
-                 this.getMusicList();
+            } else {
+                this.getMusicList();
             }
-           
+
         },
         getAllMusic() {
             this.musicState = 'all';
@@ -358,36 +440,36 @@ export default {
             this.musicPage = 1;
             this.getMusicList();
         },
-        changSearchKey(){
+        changSearchKey() {
             this.musicState = 'search'
-            api.doSearchMusicByName(this.doSearchPage,this.searchKey)
-            .then(result=>{
-                console.log(result);
-                if(result.code===api.success_code){
-                    const data = result.data.list;
-                    var tempdata=[];
-                    for(let i in data){
-                        console.log(data[i]);
-                        var temp = {
-                            musicId:data[i].id,
-                            picId:data[i].pic_id,
-                            musicName:data[i].name,
-                            singerName:data[i].singer_name,
-                            state:data[i].state,
-                            lyric:data[i].lyric,
-                            url:data[i].url,
-                            fileHighUrl:data[i].file_high_url
-                        };
-                        tempdata.push(temp);
+            api.doSearchMusicByName(this.doSearchPage, this.searchKey)
+                .then(result => {
+                    console.log(result);
+                    if (result.code === api.success_code) {
+                        const data = result.data.list;
+                        var tempdata = [];
+                        for (let i in data) {
+                            console.log(data[i]);
+                            var temp = {
+                                musicId: data[i].id,
+                                picId: data[i].pic_id,
+                                musicName: data[i].name,
+                                singerName: data[i].singer_name,
+                                state: data[i].state,
+                                lyric: data[i].lyric,
+                                url: data[i].url,
+                                fileHighUrl: data[i].file_high_url
+                            };
+                            tempdata.push(temp);
+                        }
+                        this.totalPage = result.data.totalPage;
+                        this.listmusic = tempdata;
+                        this.doSearchPage = this.doSearchPage + 1;
                     }
-                    this.totalPage = result.data.totalPage;
-                    this.listmusic = tempdata;
-                    this.doSearchPage=this.doSearchPage+1;
-                }
-            });
+                });
         },
-        playMusic(){
-            window.open('admin/music/'+this.music.url);
+        playMusic() {
+            window.open('admin/music/' + this.music.url);
         }
     }
 }

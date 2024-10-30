@@ -2,6 +2,7 @@ import http from './http.js';
 
 export const success_code=20000;
 export const base_url='http://localhost:8090';
+export const upload_url = base_url + '/admin/music/musics';
 //解析token
 export const checkToken=()=>{
     return http.requestGet('user/user/check-token');
@@ -137,4 +138,8 @@ export const refuseAssessor=(musicId)=>{
 //获取未通过列表
 export const refuseList=(page,size)=>{
     return http.requestGet('admin/admin/assessor/refuseList/'+page+'/'+size);
+}
+//多文件上传
+export const upload=(formData)=>{
+    return http.requestPost('admin/admin/music/musics?files='+formData);
 }

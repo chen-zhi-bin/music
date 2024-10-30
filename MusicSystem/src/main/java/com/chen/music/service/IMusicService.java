@@ -47,4 +47,6 @@ public interface IMusicService extends IService<Music> {
     ResponseResult getListMusic(int page, int size, String state);
 
     ResponseResult getMusicListByMusicianId(String musicianId, int page, int size);
+
+    ResponseResult uploadMusics(MultipartFile[] files);
 }

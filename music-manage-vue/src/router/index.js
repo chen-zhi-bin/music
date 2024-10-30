@@ -12,13 +12,13 @@ const index =() =>import ("@/page/dashboard/dashboard-index");
 const loopManage =() =>import ("@/page/operation/manage-loop");
 
 //设置
-  const friendLink =() =>import ("@/page/settings/friend-link");
-  const websizeinfo =() =>import ("@/page/settings/websize-info");
+  // const friendLink =() =>import ("@/page/settings/friend-link");
+  // const websizeinfo =() =>import ("@/page/settings/websize-info");
 // 用户
-const email =() =>import ("@/page/user/user-email");
-const info =() =>import ("@/page/user/user-info");
+// const email =() =>import ("@/page/user/user-email");
+// const info =() =>import ("@/page/user/user-info");
 const list =() =>import ("@/page/user/user-list");
-const resetPassword =() =>import ("@/page/user/reset-password");
+// const resetPassword =() =>import ("@/page/user/reset-password");
 // base view
 const baseView =() =>import ("@/layout/base-view.vue");
 const rightView =() =>import ("@/layout/right-content");
@@ -99,27 +99,27 @@ export const routes = [
               hidden:false,
               component: list
             },
-            {
-              path:'reset-password',
-              icon:'Unlock',
-              name:'密码重置',
-              hidden:false,
-              component: resetPassword
-            },
-            {
-              path:'email',
-              icon:'Message',
-              name:'邮箱信息',
-              hidden:false,
-              component:email
-            },
-            {
-              path:'info',
-              icon:'Tickets',
-              name:'用户信息',
-              hidden:false,
-              component: info
-            }
+            // {
+            //   path:'reset-password',
+            //   icon:'Unlock',
+            //   name:'密码重置',
+            //   hidden:false,
+            //   component: resetPassword
+            // },
+            // {
+            //   path:'email',
+            //   icon:'Message',
+            //   name:'邮箱信息',
+            //   hidden:false,
+            //   component:email
+            // },
+            // {
+            //   path:'info',
+            //   icon:'Tickets',
+            //   name:'用户信息',
+            //   hidden:false,
+            //   component: info
+            // }
           ]
         },
         {
@@ -140,31 +140,31 @@ export const routes = [
             }
           ]
         },
-        {
-          path: '/settings',
-          name:'设置',
-          icon:'Setting',
-          requireLogin:true,
-          hidden:false,
-          roleIds:[1,2,3,4],
-          component: rightView,
-          children:[
-            {
-              path:'web-size-info',
-              icon:'InfoFilled',
-              name:'网站信息',
-              hidden:false,
-              component: websizeinfo
-            },
-            {
-              path:'friend-link',
-              icon:'Link',
-              name:'友情链接',
-              hidden:false,
-              component: friendLink
-            }
-          ]
-        }
+      //   {
+      //     path: '/settings',
+      //     name:'设置',
+      //     icon:'Setting',
+      //     requireLogin:true,
+      //     hidden:false,
+      //     roleIds:[1,2,3,4],
+      //     component: rightView,
+      //     children:[
+      //       {
+      //         path:'web-size-info',
+      //         icon:'InfoFilled',
+      //         name:'网站信息',
+      //         hidden:false,
+      //         component: websizeinfo
+      //       },
+      //       {
+      //         path:'friend-link',
+      //         icon:'Link',
+      //         name:'友情链接',
+      //         hidden:false,
+      //         component: friendLink
+      //       }
+      //     ]
+      //   }
       ]
     },
     {

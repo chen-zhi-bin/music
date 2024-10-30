@@ -61,7 +61,7 @@ public class HomeAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, Base
                     singerName = "未知歌手";
                 }
                 viewHolder.setText(R.id.home_top_singer_name, singerName);
-                viewHolder.setText(R.id.home_top_count, mRandom.nextInt(50) + "");
+                viewHolder.setText(R.id.home_top_count, (mRandom.nextInt(50)+50) + "");
                 ImageView topImage = viewHolder.getView(R.id.home_top_pic_id);
                 String picId = topMusic.getPicId();
                 if (picId == null || picId.equals("")) {

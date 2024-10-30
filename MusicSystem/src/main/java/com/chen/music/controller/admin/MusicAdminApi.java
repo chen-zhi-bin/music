@@ -19,8 +19,13 @@ public class MusicAdminApi {
     private IMusicService iMusicService;
 
     @PostMapping
-    public ResponseResult uploadImage(@RequestParam("file") MultipartFile file) {
+    public ResponseResult uploadMusic(@RequestParam("file") MultipartFile file) {
         return iMusicService.uploadMusic(file);
+    }
+
+    @PostMapping("/musics")
+    public ResponseResult uploadMusics(@RequestParam("files") MultipartFile[] files) {
+        return iMusicService.uploadMusics(files);
     }
 
     @PreAuthorize("@permission.superAdmin()||@permission.musicAdmin()")

@@ -92,5 +92,6 @@ dependencies {
     implementation rootProject.ext.dependencies.shape_view
 
     implementation 'com.github.EspoirX:StarrySky:v2.6.3'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
     api project(':module_base')
 }

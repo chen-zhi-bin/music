@@ -19,6 +19,8 @@ import android.graphics.drawable.Drawable;
 import android.media.audiofx.Visualizer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -376,7 +378,7 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
         ConstraintLayout layout = this.findViewById(R.id.layout);
         layout.setBackground(null);
         mBgIv = this.findViewById(R.id.bg_iv);
-        mBgIv.setDrawingCacheEnabled(true);
+//        mBgIv.setDrawingCacheEnabled(true);
         SongInfo nowPlayingSongInfo = mControl.getNowPlayingSongInfo();
         String songCover = nowPlayingSongInfo.getSongCover();
 
@@ -487,7 +489,7 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
         }
     }
 
-    String[] permissons = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+     String[] permissons = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO};
 //    @Override
 //    protected void onResume() {
@@ -554,6 +556,7 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mLoadService = null;
         mMusicPlayActivityPresenter.unregisterViewCallback(this);
         mControl.removePlayerEventListener(mPlayerEventTag);
     }
@@ -574,39 +577,69 @@ public class MusicPlayActivity extends BaseActivity implements IMusicPlayActivit
 
     }
 
-    int top = 0;
-    int width = 0;
-    int height = 0;
+    private final int INIT = 1;
+    private final Handler mHandler = new Handler(Looper.myLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case INIT:
+                    SongInfo nowPlayingSongInfo = mControl.getNowPlayingSongInfo();
+                    initMusicInfo(nowPlayingSongInfo,nowPlayingSongInfo.getSongCover());
+                    break;
+            }
+        }
+    };
+
+    private int top = 0;
+    private int width = 0;
+    private int height = 0;
     public void getBitmap() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //启用DrawingCache并创建位图
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        //启用DrawingCache并创建位图
 //                iv_bg.buildDrawingCache();
 //                while (iv_bg.getDrawingCache() == null) {
 //                    iv_bg.buildDrawingCache();
 //                    SystemClock.sleep(10);
 //                }
-                mBgIv.buildDrawingCache();
-                while (mBgIv.getDrawingCache() == null) {
-                    mBgIv.buildDrawingCache();
-                    SystemClock.sleep(10);
-                }
+
+//                mBgIv.buildDrawingCache();
+//                LogUtils.d("Test","test mBgIv.getDrawingCache() -- ==>"+mBgIv.getDrawingCache());
+                        while (mBgIv.getDrawingCache() == null) {
+                            mBgIv.buildDrawingCache();
+                            SystemClock.sleep(10);
+                        }
 //                Bitmap bitmap2 = Bitmap.createBitmap(mBgIv.getDrawingCache());
 //                Bitmap bitmap2 = Bitmap.createBitmap(iv_bg.getDrawingCache());
-                Bitmap bitmap2 = Bitmap.createBitmap(mBgIv.getDrawingCache());
-                top = top ==0 ?mJingyunView.getTop():top;
-                width = width ==0 ?mJingyunView.getWidth():width;
-                height = height ==0 ?mJingyunView.getHeight():height;
+                        Bitmap drawingCache = mBgIv.getDrawingCache();
+                        Bitmap bitmap2 = null;
+                        LogUtils.d("Test", "is recycle == " + drawingCache.isRecycled());
+                        if (!drawingCache.isRecycled()) {
+                            bitmap2 = Bitmap.createBitmap(drawingCache);
+                        } else {
+                            bitmap2 = BitmapFactory.decodeResource(getResources(), R.mipmap.background);
+                        }
+                        top = top == 0 ? mJingyunView.getTop() : top;
+                        width = width == 0 ? mJingyunView.getWidth() : width;
+                        height = height == 0 ? mJingyunView.getHeight() : height;
 //                bitmap2 = Bitmap.createBitmap(bitmap2, 0, top, width, height);
-                bitmap2 = Bitmap.createBitmap(bitmap2, 0, top, width, height);
-                mJingyunView.setBitmapBg(bitmap2);
+                        bitmap2 = Bitmap.createBitmap(bitmap2, 0, top, width, height);
+                        mJingyunView.setBitmapBg(bitmap2);
 
 //                iv_bg.setDrawingCacheEnabled(false);
-                mBgIv.setDrawingCacheEnabled(false);
-            }
-        });
-        thread.start();
+                        mBgIv.setDrawingCacheEnabled(false);
+                    }catch (Exception e){
+                        Message message = new Message();
+                        message.what = INIT;
+                        mHandler.sendMessage(message);
+                    }
+                }
+            });
+            thread.start();
+
         //暂时不显示
         mJingyunLayout.setVisibility(View.GONE);
         mLoadService.showSuccess();

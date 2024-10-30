@@ -257,6 +257,12 @@ public class SubCommentActivity extends BaseActivity implements ISubCommentActiv
         ToastUtils.showToast(data.getMessage());
     }
 
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        mSubCommentActivityPresenter.unregisterViewCallback(this);
+//    }
+
     private void finishRefresh() {
         if (mRefreshLayout.isRefreshing()) {
             mRefreshLayout.finishRefresh();

@@ -22,6 +22,9 @@
                             :src="baseUrlImage + '/' + scope.row.avatar" />
                     </template> 
                 </el-table-column>
+                <el-table-column prop="userName" label="用户名" width="150">
+                  
+                </el-table-column>
                 <el-table-column prop="comment" label="评论内容" width="120">
                     <template v-slot="scope">
                         <div >
@@ -143,6 +146,7 @@ export default {
                     if (result.code === api.success_code) {
                         this.listComment = result.data.list;
                         this.totalPage = result.data.maxPage;
+                      
                     }
                 });
         }

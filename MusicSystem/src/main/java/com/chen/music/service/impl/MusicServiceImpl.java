@@ -768,6 +768,160 @@ public class MusicServiceImpl extends ServiceImpl<MusicDao, Music> implements IM
         return ResponseResult.SUCCESS("获取成功").setData(map);
     }
 
+    @Override
+    public ResponseResult uploadMusics(MultipartFile[] files) {
+        User user = userService.checkUser();
+        if (user == null) {
+            return ResponseResult.ACCOUNT_NOT_LOGIN();
+        }
+        String md5 = null;
+        InputStream inputStream = null;
+        log.info(files.length+"==size");
+        ArrayList<String> failedFiles = new ArrayList<>();
+        ArrayList<String> successFiles = new ArrayList<>();
+        for (MultipartFile file : files) {
+            log.info(file.getContentType());
+            md5 = null;
+            inputStream = null;
+            String contentType = file.getContentType();
+            if (TextUtils.isEmpty(contentType)) {
+                return ResponseResult.FAILED("音频文件格式错误");
+            }
+            //        获取相关数据，比如说文件类型，文件名称
+            String originalFilename = file.getOriginalFilename();
+            String type = getType(contentType, originalFilename);
+            String fileName = file.getName();
+            try{
+                inputStream = file.getInputStream();
+                md5 = DigestUtils.md5DigestAsHex(inputStream);
+                QueryWrapper<Music> musicQueryWrapper = new QueryWrapper<>();
+                if (type == null){
+                    failedFiles.add(originalFilename);
+                    continue;
+                }else {
+                    if (type.equals(Constants.MusicType.TYPE_MP3)){
+                        musicQueryWrapper.eq("md5",md5);
+                    }else {
+                        musicQueryWrapper.eq("file_high_md5",md5);
+                    }
+                    Music music = musicDao.selectOne(musicQueryWrapper);
+                    if (music != null) {
+                        failedFiles.add(originalFilename);
+                        continue;
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                failedFiles.add(originalFilename);
+                continue;
+            }finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            //判断文件类型
+            log.info("originalFilename ="+originalFilename+
+                    "\n type ="+type+
+                    "\n contentType ="+contentType);
+            if (type==null){
+                failedFiles.add(originalFilename);
+            }
+            log.info("name==" + fileName);
+            log.info("originalFilename==" + originalFilename);
+            //限制文件大小
+            long size = file.getSize();
+            if (size>maxSize){
+                failedFiles.add(originalFilename);
+            }
+            log.info(originalFilename);
+            //创建保存目录
+            //规则：配置目录/日期/类型/ID.类型
+            long currentMillions = System.currentTimeMillis();
+            String currentDay = simpleDateFormat.format(currentMillions);
+            log.info("current day = >" + currentDay);
+            String dayPath = musicPath + File.separator + currentDay;
+            File dayPathFile = new File(dayPath);
+            //判断日期文件夹是否存在
+            if (!dayPathFile.exists()){
+                dayPathFile.getParentFile().mkdirs();
+            }
+            String targetName = String.valueOf(idWorker.nextId());
+            String targetPath = dayPath+
+                    File.separator+type+File.separator+ targetName +"."+type;
+            File targetFile = new File(targetPath);
+            //判断类型文件夹是否存在
+            if (!targetFile.getParentFile().exists()) {
+                targetFile.getParentFile().mkdirs();
+            }
+            //保存文件
+            try {
+                file.transferTo(targetFile);
+                //保存记录到数据库
+                String resultPath = currentMillions + "_" + targetName + "." + type;
+                Music music = new Music();
+                music.setId(targetName);
+                music.setContentType(type);
+                if (type.equals(Constants.MusicType.TYPE_FLAC)){
+                    music.setFileHighPath(targetFile.getPath());
+                    music.setFileHighMd5(md5);
+                    music.setFileHighUrl(resultPath);
+                }else {
+                    music.setPath(targetFile.getPath());
+                    music.setUrl(resultPath);
+                    music.setMd5(md5);
+                }
+                music.setState("4");
+                music.setUserId(user.getId());
+                File audioFile = null;
+                if (type.equals(Constants.MusicType.TYPE_MP3)){
+                    audioFile = new File(music.getPath());
+                }else {
+                    audioFile = new File(music.getFileHighPath());
+                }
+                Float mp3Duration = AudioUtil.getMp3Duration(audioFile);
+                music.setDuration(mp3Duration+"");
+
+                log.info(originalFilename);
+                String[] split = originalFilename.split("\\.");
+                String[] nameSplit = split[0].split("-");
+                QueryWrapper<Singer> singerQueryWrapper = new QueryWrapper<>();
+                singerQueryWrapper.eq("name",nameSplit[1]);
+                Singer singer = singerDao.selectOne(singerQueryWrapper);
+                String singerId = null;
+                if (singer == null){
+                    singerId = idWorker.nextId()+"";
+                    Singer newSinger = new Singer();
+                    newSinger.setId(singerId);
+                    newSinger.setName(nameSplit[0]);
+                    newSinger.setSex(4);
+                    newSinger.setPicId(Constants.User.DEFAULT_AVATAR);
+                    newSinger.setMusicCount("-1");
+                    newSinger.setUserId(user.getId());
+                    newSinger.setState("1");
+                    singerDao.insert(newSinger);
+                }else {
+                    singerId = singer.getId();
+                }
+                music.setName(nameSplit[0]);
+                music.setSingerId(singerId);
+                music.setSingerName(nameSplit[1]);
+                musicDao.insert(music);
+                successFiles.add(originalFilename);
+            } catch (IOException e) {
+                e.printStackTrace();
+                failedFiles.add(originalFilename);
+            }
+        }
+        HashMap<String,Object> resMap = new HashMap<>();
+        resMap.put("success_list",successFiles);
+        resMap.put("fail_list",failedFiles);
+        return ResponseResult.SUCCESS("上传结束").setData(resMap);
+    }
+
     private String getType(String contentType,String name){
         String type = null;
         if (Constants.MusicType.TYPE_MP3_WITH_PREFIX_AUDIO.equals(contentType)
